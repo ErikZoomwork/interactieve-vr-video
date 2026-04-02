@@ -58,12 +58,13 @@
         <!-- ===== Zwarte achtergrond (zichtbaar bij 180° video) ===== -->
         <a-sky color="#000000" radius="5010"></a-sky>
 
-        <!-- ===== 360° Video Sphere ===== -->
-        <a-videosphere
+        <!-- ===== Video Sphere ===== -->
+        <a-entity
             id="video-sphere"
-            src=""
+            geometry="primitive: sphere; radius: 5000; segmentsWidth: 64; segmentsHeight: 20; phiLength: 360"
+            material="shader: flat; side: back; src: "
             rotation="0 -90 0"
-        ></a-videosphere>
+        ></a-entity>
 
         <!-- ===== Camera met cursor (voor gaze/blik-selectie) ===== -->
         <a-entity id="camera-rig" position="0 0 0">
