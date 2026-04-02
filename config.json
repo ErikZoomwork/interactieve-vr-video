@@ -13,7 +13,7 @@
       "buttons": [
         {
           "id": "btn-1775121833018",
-          "text": "Nieuwe knop",
+          "text": "Hoe Heet Dit",
           "goTo": "",
           "position": {
             "x": 0,
@@ -39,7 +39,7 @@
         },
         {
           "id": "btn-1775121835962",
-          "text": "Nieuwe knop",
+          "text": "Hoe Heet Dit 2",
           "goTo": "",
           "position": {
             "x": 0,
