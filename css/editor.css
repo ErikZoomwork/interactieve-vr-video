@@ -54,6 +54,12 @@ body {
     color: var(--text-primary);
 }
 
+.last-updated {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 12px;
+}
+
 .header-right {
     display: flex;
     gap: 8px;

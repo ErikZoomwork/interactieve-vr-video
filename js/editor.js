@@ -22,6 +22,7 @@ const Editor = {
             this.config = await this._loadOrDefault();
         }
         this.render();
+        this._fetchLastUpdated();
     },
 
     async _loadOrDefault() {
@@ -669,6 +670,21 @@ const Editor = {
     _ghRepo: 'interactieve-vr-video',
     _ghBranch: 'master',
 
+    async _fetchLastUpdated() {
+        try {
+            const resp = await fetch(
+                `https://api.github.com/repos/${this._ghOwner}/${this._ghRepo}/commits?sha=${this._ghBranch}&per_page=1`
+            );
+            if (!resp.ok) return;
+            const commits = await resp.json();
+            if (commits.length > 0) {
+                const date = new Date(commits[0].commit.committer.date);
+                const el = document.getElementById('last-updated');
+                if (el) el.textContent = '🕒 Laatst gewijzigd: ' + date.toLocaleString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            }
+        } catch (e) { /* stil falen */ }
+    },
+
     async publishConfig() {
         const token = localStorage.getItem('gh_token');
         if (!token) {
@@ -730,6 +746,7 @@ const Editor = {
 
             btn.textContent = '✅ Gepubliceerd!';
             setTimeout(() => { btn.textContent = originalText; }, 2000);
+            this._fetchLastUpdated();
 
         } catch (e) {
             alert('Fout bij publiceren: ' + e.message);
