@@ -25,7 +25,9 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 3
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
