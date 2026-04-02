@@ -17,7 +17,6 @@
         <button class="btn btn-secondary" onclick="Editor.importConfig()">📂 Importeer Config</button>
         <button class="btn btn-secondary" onclick="Editor.exportConfig()">💾 Exporteer Config</button>
         <button class="btn btn-success" onclick="Editor.publishConfig()">📤 Publiceer config.json</button>
-        <button class="btn btn-accent" onclick="Editor.exportForQuest()">🥽 Exporteer voor Quest</button>
         <a href="index.html" class="btn btn-primary" target="_blank">▶ Preview VR</a>
     </div>
 </header>
@@ -294,50 +293,7 @@
     </div>
 </div>
 
-<!-- ===== EXPORT VOOR QUEST MODAL ===== -->
-<div id="export-overlay" style="display:none;" onclick="Editor.closeExportModal()">
-    <div id="export-modal" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <h3>🥽 Exporteer voor Quest</h3>
-            <button class="btn btn-small btn-ghost" onclick="Editor.closeExportModal()">✕</button>
-        </div>
-        <div class="modal-body">
-            <p class="export-description">
-                Dit maakt één HTML-bestand aan met alle code erin. Kopieer dit bestand
-                samen met de <strong>videos/</strong> map naar je Meta Quest 3 — klaar!
-            </p>
 
-            <div id="export-step-files">
-                <h4>📋 Bestanden in deze export</h4>
-                <p class="help-text" style="margin-bottom: 12px;">De video's worden via relatieve paden geladen. Zorg dat de videobestanden naast het HTML-bestand staan.</p>
-                <div id="export-file-list">
-                    <!-- Dynamisch gevuld -->
-                </div>
-                <div class="export-instructions">
-                    <h4>📦 Na het exporteren</h4>
-                    <ol>
-                        <li>Maak een map aan op je Quest (bijv. <code>VR-Video</code>)</li>
-                        <li>Kopieer <code>vr-ervaring.html</code> naar die map</li>
-                        <li>Kopieer de <code>videos/</code> map met je videobestanden ernaast</li>
-                        <li>Open het HTML-bestand in de Meta Quest Browser</li>
-                    </ol>
-                </div>
-                <div style="margin-top: 16px; text-align: right;">
-                    <button class="btn btn-primary" onclick="Editor.startExport()" id="btn-start-export">🚀 Exporteer HTML</button>
-                </div>
-            </div>
-
-            <div id="export-step-done" style="display:none;">
-                <div class="export-done-icon">✅</div>
-                <h4>Export gereed!</h4>
-                <p>Kopieer <strong>vr-ervaring.html</strong> + de <strong>videos/</strong> map naar je Meta Quest 3.</p>
-                <div style="margin-top: 16px;">
-                    <button class="btn btn-primary" onclick="Editor.closeExportModal()">Sluiten</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="js/editor.js"></script>
 </body>

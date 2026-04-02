@@ -13,6 +13,67 @@ class ButtonFactory {
         this.buttonContainer = null;
         this.activeButtons = [];
         this._timedButtons = [];  // Buttons met timing-regels
+        this._registerRoundedRect();
+    }
+
+    /** Registreer een custom A-Frame component voor afgeronde rechthoeken */
+    _registerRoundedRect() {
+        if (AFRAME.components['rounded-rect']) return;
+
+        AFRAME.registerComponent('rounded-rect', {
+            schema: {
+                width: { type: 'number', default: 2 },
+                height: { type: 'number', default: 0.5 },
+                radius: { type: 'number', default: 0.05 },
+                color: { type: 'color', default: '#333' },
+                opacity: { type: 'number', default: 1 },
+            },
+            init() {
+                this._createMesh();
+            },
+            update() {
+                this._createMesh();
+            },
+            _createMesh() {
+                const { width, height, radius, color, opacity } = this.data;
+                const shape = new THREE.Shape();
+                const w = width / 2, h = height / 2, r = Math.min(radius, w, h);
+
+                shape.moveTo(-w + r, -h);
+                shape.lineTo(w - r, -h);
+                shape.quadraticCurveTo(w, -h, w, -h + r);
+                shape.lineTo(w, h - r);
+                shape.quadraticCurveTo(w, h, w - r, h);
+                shape.lineTo(-w + r, h);
+                shape.quadraticCurveTo(-w, h, -w, h - r);
+                shape.lineTo(-w, -h + r);
+                shape.quadraticCurveTo(-w, -h, -w + r, -h);
+
+                const geometry = new THREE.ShapeGeometry(shape);
+                const material = new THREE.MeshBasicMaterial({
+                    color: new THREE.Color(color),
+                    side: THREE.DoubleSide,
+                    transparent: opacity < 1,
+                    opacity: opacity
+                });
+
+                if (this.mesh) {
+                    this.el.object3D.remove(this.mesh);
+                    this.mesh.geometry.dispose();
+                    this.mesh.material.dispose();
+                }
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.el.object3D.add(this.mesh);
+                this.el.classList.add('clickable');
+            },
+            remove() {
+                if (this.mesh) {
+                    this.el.object3D.remove(this.mesh);
+                    this.mesh.geometry.dispose();
+                    this.mesh.material.dispose();
+                }
+            }
+        });
     }
 
     /** Initialiseer de button factory */
@@ -105,58 +166,24 @@ class ButtonFactory {
         const rot = config.rotation || { x: 0, y: 0, z: 0 };
         group.setAttribute("rotation", `${rot.x} ${rot.y} ${rot.z}`);
 
-        // Achtergrond paneel
-        const panel = document.createElement("a-rounded");
-        if (!customElements.get("a-rounded")) {
-            // Fallback: gebruik een gewone plane als a-rounded niet beschikbaar is
-            const plane = document.createElement("a-plane");
-            plane.setAttribute("width", style.width);
-            plane.setAttribute("height", style.height);
-            plane.setAttribute("material", `color: ${style.backgroundColor}; opacity: ${style.opacity}; shader: flat`);
-            plane.setAttribute("class", "clickable");
-            plane.setAttribute("data-goto", config.goTo);
+        // Achtergrond: afgeronde rechthoek of afbeelding
+        const panel = document.createElement("a-entity");
 
-            this._addHoverEffects(plane, style);
-            this._addClickHandler(plane, config);
-
-            group.appendChild(plane);
-        } else {
-            panel.setAttribute("width", style.width);
-            panel.setAttribute("height", style.height);
-            panel.setAttribute("radius", style.borderRadius);
-            panel.setAttribute("color", style.backgroundColor);
-            panel.setAttribute("opacity", style.opacity);
-            panel.setAttribute("class", "clickable");
-            panel.setAttribute("data-goto", config.goTo);
-
-            this._addHoverEffects(panel, style);
-            this._addClickHandler(panel, config);
-
-            group.appendChild(panel);
-        }
-
-        // Gebruik een a-plane als fallback (het a-rounded component is custom)
-        const bgPlane = document.createElement("a-plane");
-        bgPlane.setAttribute("width", style.width);
-        bgPlane.setAttribute("height", style.height);
-        bgPlane.setAttribute("material", `color: ${style.backgroundColor}; opacity: ${style.opacity}; shader: flat; side: double`);
-        bgPlane.setAttribute("class", "clickable");
-        bgPlane.setAttribute("data-goto", config.goTo);
-        bgPlane.setAttribute("position", "0 0 0");
-
-        // Achtergrondafbeelding (optioneel)
         if (style.backgroundImage) {
-            bgPlane.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
+            // Afbeelding als achtergrond — gebruik a-plane
+            panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
+            panel.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
+        } else {
+            // Afgeronde rechthoek
+            panel.setAttribute("rounded-rect", `width: ${style.width}; height: ${style.height}; radius: ${style.borderRadius}; color: ${style.backgroundColor}; opacity: ${style.opacity}`);
         }
 
-        this._addHoverEffects(bgPlane, style);
-        this._addClickHandler(bgPlane, config);
+        panel.setAttribute("class", "clickable");
+        panel.setAttribute("data-goto", config.goTo || "");
 
-        // Verwijder het eerder toegevoegde panel, gebruik bgPlane
-        while (group.firstChild) {
-            group.removeChild(group.firstChild);
-        }
-        group.appendChild(bgPlane);
+        this._addHoverEffects(panel, style);
+        this._addClickHandler(panel, config);
+        group.appendChild(panel);
 
         // Tekst label
         if (config.text) {
@@ -195,14 +222,21 @@ class ButtonFactory {
 
     /** Voeg hover-effecten toe aan een element */
     _addHoverEffects(element, style) {
-        // Hover: kleur veranderen
         element.addEventListener("mouseenter", () => {
-            element.setAttribute("material", "color", style.hoverColor);
+            if (element.hasAttribute("rounded-rect")) {
+                element.setAttribute("rounded-rect", "color", style.hoverColor);
+            } else {
+                element.setAttribute("material", "color", style.hoverColor);
+            }
             element.setAttribute("scale", "1.05 1.05 1.05");
         });
 
         element.addEventListener("mouseleave", () => {
-            element.setAttribute("material", "color", style.backgroundColor);
+            if (element.hasAttribute("rounded-rect")) {
+                element.setAttribute("rounded-rect", "color", style.backgroundColor);
+            } else {
+                element.setAttribute("material", "color", style.backgroundColor);
+            }
             element.setAttribute("scale", "1 1 1");
         });
     }
