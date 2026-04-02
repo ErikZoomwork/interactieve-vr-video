@@ -8,6 +8,22 @@
     <!-- A-Frame VR Framework -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
+    <!-- Hand tracking pinch-to-click -->
+    <script>
+    AFRAME.registerComponent('pinch-to-click', {
+        init() {
+            this.el.addEventListener('pinchstarted', () => {
+                const raycaster = this.el.components.raycaster;
+                if (!raycaster) return;
+                const intersected = raycaster.intersectedEls;
+                if (intersected.length > 0) {
+                    intersected[0].emit('click');
+                }
+            });
+        }
+    });
+    </script>
+
     <!-- Stijlen -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -84,6 +100,20 @@
             id="right-hand"
             laser-controls="hand: right"
             raycaster="objects: .clickable; far: 20"
+        ></a-entity>
+
+        <!-- ===== Hand tracking (voor Meta Quest hand tracking) ===== -->
+        <a-entity
+            id="left-hand-tracking"
+            hand-tracking-controls="hand: left; modelStyle: dots;"
+            raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5"
+            pinch-to-click
+        ></a-entity>
+        <a-entity
+            id="right-hand-tracking"
+            hand-tracking-controls="hand: right; modelStyle: dots;"
+            raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5"
+            pinch-to-click
         ></a-entity>
 
         <!-- ===== Container voor interactieve buttons ===== -->

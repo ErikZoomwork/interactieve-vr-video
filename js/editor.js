@@ -873,6 +873,20 @@ const Editor = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactieve VR Video</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"><\/script>
+    <script>
+    AFRAME.registerComponent('pinch-to-click', {
+        init() {
+            this.el.addEventListener('pinchstarted', () => {
+                const raycaster = this.el.components.raycaster;
+                if (!raycaster) return;
+                const intersected = raycaster.intersectedEls;
+                if (intersected.length > 0) {
+                    intersected[0].emit('click');
+                }
+            });
+        }
+    });
+    <\/script>
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a1a; color: white; overflow: hidden; }
@@ -905,6 +919,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         </a-entity>
         <a-entity id="left-hand" laser-controls="hand: left" raycaster="objects: .clickable; far: 20"></a-entity>
         <a-entity id="right-hand" laser-controls="hand: right" raycaster="objects: .clickable; far: 20"></a-entity>
+        <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left; modelStyle: dots;" raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5" pinch-to-click></a-entity>
+        <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right; modelStyle: dots;" raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5" pinch-to-click></a-entity>
         <a-entity id="button-container"></a-entity>
         <a-sphere id="fade-sphere" radius="0.5" material="color: black; shader: flat; opacity: 0; side: back; transparent: true" position="0 1.6 0"></a-sphere>
     </a-scene>
