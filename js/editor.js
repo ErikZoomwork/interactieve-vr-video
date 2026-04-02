@@ -225,9 +225,6 @@ const Editor = {
 
         document.getElementById("panel-button-editor").style.display = "flex";
 
-        // Herbereken overlay nadat panel zichtbaar is (layout shift)
-        requestAnimationFrame(() => this._renderPreviewOverlay());
-
         // Vul velden in
         document.getElementById("btn-edit-text").value = btn.text || "";
         document.getElementById("btn-edit-pos-x").value = btn.position?.x ?? 0;
@@ -664,7 +661,6 @@ const Editor = {
     closeButtonEditor() {
         document.getElementById("panel-button-editor").style.display = "none";
         this.selectedButtonIndex = null;
-        requestAnimationFrame(() => this._renderPreviewOverlay());
     },
 
     // ===== IMPORT / EXPORT =====
@@ -1269,10 +1265,13 @@ document.addEventListener("DOMContentLoaded", () => {
     Editor.init();
     Editor._initDragDrop();
 
-    // Re-render overlay on resize
-    window.addEventListener('resize', () => {
-        if (Editor.selectedVideoId) {
-            Editor._renderPreviewOverlay();
-        }
-    });
+    // Re-render overlay whenever the preview container resizes (panel open/close, window resize, etc.)
+    const previewContainer = document.getElementById('preview-container');
+    if (previewContainer && typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(() => {
+            if (Editor.selectedVideoId) {
+                Editor._renderPreviewOverlay();
+            }
+        }).observe(previewContainer);
+    }
 });
