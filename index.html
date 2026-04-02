@@ -23,6 +23,20 @@
             });
         }
     });
+
+    AFRAME.registerComponent('half-sphere', {
+        schema: { enabled: { type: 'boolean', default: false } },
+        update() {
+            const mesh = this.el.getObject3D('mesh');
+            if (!mesh) {
+                this.el.addEventListener('object3dset', () => this.update(), { once: true });
+                return;
+            }
+            const phi = this.data.enabled ? Math.PI : Math.PI * 2;
+            mesh.geometry.dispose();
+            mesh.geometry = new THREE.SphereGeometry(5000, 64, 20, 0, phi);
+        }
+    });
     </script>
 
     <!-- Stijlen -->
@@ -48,6 +62,7 @@
         webxr="requiredFeatures: local-floor; optionalFeatures: hand-tracking"
         loading-screen="enabled: false"
         renderer="colorManagement: true"
+        background="color: #000000"
         style="display: none;"
     >
         <!-- ===== Assets: video's worden hier dynamisch geladen ===== -->
@@ -55,16 +70,13 @@
             <!-- Video's worden dynamisch toegevoegd via JavaScript -->
         </a-assets>
 
-        <!-- ===== Zwarte achtergrond (zichtbaar bij 180° video) ===== -->
-        <a-sky color="#000000" radius="5010"></a-sky>
-
-        <!-- ===== Video Sphere ===== -->
-        <a-entity
+        <!-- ===== 360° Video Sphere ===== -->
+        <a-videosphere
             id="video-sphere"
-            geometry="primitive: sphere; radius: 5000; segmentsWidth: 64; segmentsHeight: 20; phiLength: 360"
-            material="shader: flat; side: back; src: "
+            src=""
             rotation="0 -90 0"
-        ></a-entity>
+            half-sphere="enabled: false"
+        ></a-videosphere>
 
         <!-- ===== Camera met cursor (voor gaze/blik-selectie) ===== -->
         <a-entity id="camera-rig" position="0 0 0">
