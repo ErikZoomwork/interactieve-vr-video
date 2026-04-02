@@ -2,27 +2,46 @@
    APP.JS — Hoofdlogica voor de interactieve VR video-applicatie
    ============================================================ */
 
-// Laad config uit localStorage als beschikbaar (vanuit de editor)
-(function loadEditorConfig() {
+// Laad config: probeer eerst config.json (gedeeld), dan localStorage (lokaal), dan config.js (standaard)
+let _configLoaded = false;
+
+async function _loadSharedConfig() {
+    try {
+        const resp = await fetch('config.json?t=' + Date.now());
+        if (resp.ok) {
+            const parsed = await resp.json();
+            Object.assign(VR_CONFIG, parsed);
+            console.log("Config geladen vanuit config.json (gedeeld)");
+            _configLoaded = true;
+            return;
+        }
+    } catch (e) {
+        // config.json niet beschikbaar, geen probleem
+    }
+
+    // Fallback: localStorage
     const saved = localStorage.getItem("vr_editor_config");
     if (saved) {
         try {
             const parsed = JSON.parse(saved);
-            // Overschrijf de config met de editor-versie
             Object.assign(VR_CONFIG, parsed);
             console.log("Config geladen vanuit editor (localStorage)");
+            _configLoaded = true;
         } catch (e) {
             console.warn("Kon editor-config niet laden:", e);
         }
     }
-})();
+}
 
 // Globale instanties
 window.videoManager = new VideoManager();
 window.buttonFactory = new ButtonFactory();
 
 /** Start de VR-ervaring */
-function startExperience() {
+async function startExperience() {
+    // Laad gedeelde config voordat we beginnen
+    await _loadSharedConfig();
+
     const startScreen = document.getElementById("start-screen");
     const vrScene = document.getElementById("vr-scene");
 

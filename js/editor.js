@@ -651,6 +651,20 @@ const Editor = {
     },
 
     // ===== IMPORT / EXPORT =====
+    publishConfig() {
+        const json = JSON.stringify(this.config, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'config.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('config.json gedownload!\n\nPlaats dit bestand in de hoofdmap van je project en push naar GitHub:\n\n1. Kopieer config.json naar K:\\Interactieve VR Video\\\n2. git add config.json\n3. git commit -m "Update config"\n4. git push');
+    },
+
     exportConfig() {
         const configStr = this._generateConfigJS();
         document.getElementById("modal-title").textContent = "Exporteer Config";

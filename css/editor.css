@@ -119,6 +119,14 @@ body {
     background: linear-gradient(90deg, #6a3de8, #2979ff);
 }
 
+.btn-success {
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+    color: white;
+}
+.btn-success:hover {
+    background: linear-gradient(90deg, #388e3c, #4caf50);
+}
+
 .btn-small {
     padding: 4px 10px;
     font-size: 12px;
