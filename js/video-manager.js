@@ -69,10 +69,28 @@ class VideoManager {
         const videoConfig = VR_CONFIG.videos[videoId];
         const projection = videoConfig.projection || "360";
         if (projection === "180") {
-            this.videoSphere.setAttribute("geometry", "thetaLength", 180);
+            this.videoSphere.setAttribute("geometry", {
+                primitive: 'sphere',
+                radius: 5000,
+                segmentsWidth: 64,
+                segmentsHeight: 20,
+                thetaLength: 180,
+                thetaStart: 0,
+                phiStart: 0,
+                phiLength: 360
+            });
             this.videoSphere.setAttribute("rotation", "0 180 0");
         } else {
-            this.videoSphere.setAttribute("geometry", "thetaLength", 360);
+            this.videoSphere.setAttribute("geometry", {
+                primitive: 'sphere',
+                radius: 5000,
+                segmentsWidth: 64,
+                segmentsHeight: 20,
+                thetaLength: 360,
+                thetaStart: 0,
+                phiStart: 0,
+                phiLength: 360
+            });
             this.videoSphere.setAttribute("rotation", "0 -90 0");
         }
 
