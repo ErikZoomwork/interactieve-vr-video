@@ -167,7 +167,6 @@ class ButtonFactory {
             text.setAttribute("width", style.fontSize);
             text.setAttribute("position", "0 0 0.01");
             text.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
-            text.setAttribute("negate", "false");
             group.appendChild(text);
         }
 

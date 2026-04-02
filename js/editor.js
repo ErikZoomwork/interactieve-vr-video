@@ -1122,7 +1122,6 @@ document.addEventListener("keydown", (e) => {
             t.setAttribute("color", s.textColor); t.setAttribute("width", s.fontSize);
             t.setAttribute("position", "0 0 0.01");
             t.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
-            t.setAttribute("negate", "false");
             g.appendChild(t);
         }
         if (s.icon) {
