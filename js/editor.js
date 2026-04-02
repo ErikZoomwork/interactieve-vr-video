@@ -9,19 +9,31 @@ const Editor = {
     selectedButtonIndex: null,
 
     // ===== INITIALISATIE =====
-    init() {
-        // Laad config uit localStorage of gebruik standaard
+    async init() {
+        // Laad config: localStorage eerst, dan config.json als fallback
         const saved = localStorage.getItem("vr_editor_config");
         if (saved) {
             try {
                 this.config = JSON.parse(saved);
             } catch (e) {
-                this.config = this._defaultConfig();
+                this.config = await this._loadOrDefault();
             }
         } else {
-            this.config = this._defaultConfig();
+            this.config = await this._loadOrDefault();
         }
         this.render();
+    },
+
+    async _loadOrDefault() {
+        try {
+            const resp = await fetch('config.json?t=' + Date.now());
+            if (resp.ok) {
+                const parsed = await resp.json();
+                console.log("Editor: config geladen vanuit config.json");
+                return parsed;
+            }
+        } catch (e) { /* niet beschikbaar */ }
+        return this._defaultConfig();
     },
 
     _defaultConfig() {
@@ -215,7 +227,7 @@ const Editor = {
         // Vul velden in
         document.getElementById("btn-edit-text").value = btn.text || "";
         document.getElementById("btn-edit-pos-x").value = btn.position?.x ?? 0;
-        document.getElementById("btn-edit-pos-y").value = btn.position?.y ?? 1.2;
+        document.getElementById("btn-edit-pos-y").value = btn.position?.y ?? 0;
         document.getElementById("btn-edit-pos-z").value = btn.position?.z ?? -4;
         document.getElementById("btn-edit-rot-y").value = btn.rotation?.y ?? 0;
 
@@ -436,7 +448,7 @@ const Editor = {
             id: "btn-" + Date.now(),
             text: "Nieuwe knop",
             goTo: "",
-            position: { x: 0, y: 1.2, z: -4 },
+            position: { x: 0, y: 0, z: -4 },
             rotation: { x: 0, y: 0, z: 0 },
             timing: {},
             style: {
@@ -507,7 +519,7 @@ const Editor = {
     updateButtonPos(axis, value) {
         if (this.selectedButtonIndex === null) return;
         const btn = this.config.videos[this.selectedVideoId].buttons[this.selectedButtonIndex];
-        if (!btn.position) btn.position = { x: 0, y: 1.2, z: -4 };
+        if (!btn.position) btn.position = { x: 0, y: 0, z: -4 };
         btn.position[axis] = parseFloat(value) || 0;
         this.save();
         this._renderButtonList(this.config.videos[this.selectedVideoId].buttons);
@@ -1262,17 +1274,17 @@ document.addEventListener("keydown", (e) => {
 
     // ===== 360° PREVIEW OVERLAY =====
 
-    // Camera eye height in the VR scene
-    _eyeHeight: 1.6,
+    // Camera eye height in the VR scene (0 because Quest local-floor handles real height)
+    _eyeHeight: 0,
 
     /**
      * Convert 3D button position to 2D percentage on equirectangular preview.
      * Returns { x: 0-100, y: 0-100 } or null if invalid.
      */
     _positionToPreview(pos) {
-        const x = pos.x || 0;
-        const y = pos.y || 1.2;
-        const z = pos.z || -4;
+        const x = pos.x ?? 0;
+        const y = pos.y ?? 0;
+        const z = pos.z ?? -4;
 
         // Horizontal angle: atan2(x, -z) → 0 = straight ahead
         const theta = Math.atan2(x, -z);
