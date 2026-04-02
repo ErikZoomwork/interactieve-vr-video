@@ -225,6 +225,9 @@ const Editor = {
 
         document.getElementById("panel-button-editor").style.display = "flex";
 
+        // Herbereken overlay nadat panel zichtbaar is (layout shift)
+        requestAnimationFrame(() => this._renderPreviewOverlay());
+
         // Vul velden in
         document.getElementById("btn-edit-text").value = btn.text || "";
         document.getElementById("btn-edit-pos-x").value = btn.position?.x ?? 0;
@@ -661,6 +664,7 @@ const Editor = {
     closeButtonEditor() {
         document.getElementById("panel-button-editor").style.display = "none";
         this.selectedButtonIndex = null;
+        requestAnimationFrame(() => this._renderPreviewOverlay());
     },
 
     // ===== IMPORT / EXPORT =====
