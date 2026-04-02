@@ -910,7 +910,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
     <a-scene id="vr-scene" vr-mode-ui="enabled: true" webxr="requiredFeatures: local-floor; optionalFeatures: hand-tracking" loading-screen="enabled: false" renderer="colorManagement: true" style="display: none;">
         <a-assets id="asset-container" timeout="60000"></a-assets>
         <a-videosphere id="video-sphere" src="" rotation="0 -90 0"></a-videosphere>
-        <a-entity id="camera-rig" position="0 1.6 0">
+        <a-entity id="camera-rig" position="0 0 0">
             <a-camera id="main-camera" look-controls="pointerLockEnabled: false" wasd-controls="enabled: false">
                 <a-entity id="gaze-cursor" cursor="fuse: true; fuseTimeout: 2000" raycaster="objects: .clickable; far: 20" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015" material="color: white; shader: flat; opacity: 0.8" animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1" animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 2000; from: 1 1 1; to: 0.1 0.1 0.1" animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1">
                     <a-entity id="fuse-loader" geometry="primitive: ring; radiusInner: 0.018; radiusOuter: 0.025; thetaLength: 0" material="color: #4FC3F7; shader: flat; opacity: 0.9"></a-entity>
@@ -922,7 +922,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
         <a-entity id="left-hand-tracking" hand-tracking-controls="hand: left; modelStyle: dots;" raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5" pinch-to-click></a-entity>
         <a-entity id="right-hand-tracking" hand-tracking-controls="hand: right; modelStyle: dots;" raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5" pinch-to-click></a-entity>
         <a-entity id="button-container"></a-entity>
-        <a-sphere id="fade-sphere" radius="0.5" material="color: black; shader: flat; opacity: 0; side: back; transparent: true" position="0 1.6 0"></a-sphere>
+        <a-sphere id="fade-sphere" radius="0.5" material="color: black; shader: flat; opacity: 0; side: back; transparent: true" position="0 0 0"></a-sphere>
     </a-scene>
 
 <script>
