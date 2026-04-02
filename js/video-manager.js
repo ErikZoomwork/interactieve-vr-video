@@ -64,6 +64,18 @@ class VideoManager {
         // Stel de nieuwe video in
         const newVideo = this.videoElements[videoId];
         this.videoSphere.setAttribute("src", `#video-${videoId}`);
+
+        // Stel projectie in (180° of 360°)
+        const videoConfig = VR_CONFIG.videos[videoId];
+        const projection = videoConfig.projection || "360";
+        if (projection === "180") {
+            this.videoSphere.setAttribute("theta-length", 180);
+            this.videoSphere.setAttribute("rotation", "0 180 0");
+        } else {
+            this.videoSphere.setAttribute("theta-length", 360);
+            this.videoSphere.setAttribute("rotation", "0 -90 0");
+        }
+
         this.currentVideoId = videoId;
 
         // Start de video

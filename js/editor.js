@@ -132,6 +132,9 @@ const Editor = {
         document.getElementById("input-video-id").value = this.selectedVideoId;
         document.getElementById("input-video-loop").checked = video.loop !== false;
 
+        // Projection type
+        document.getElementById("input-video-projection").value = video.projection || "360";
+
         // Source type
         const sourceType = video.sourceType || "file";
         const radioFile = document.querySelector('input[name="source-type"][value="file"]');
@@ -977,6 +980,12 @@ const Editor = {
     // Camera eye height: 0 because button positions are eye-relative (button-factory adds 1.6m)
     _eyeHeight: 0,
 
+    /** Get the projection type of the currently selected video */
+    _currentProjection() {
+        if (!this.selectedVideoId || !this.config.videos[this.selectedVideoId]) return "360";
+        return this.config.videos[this.selectedVideoId].projection || "360";
+    },
+
     /**
      * Convert 3D button position to 2D percentage on equirectangular preview.
      * Returns { x: 0-100, y: 0-100 } or null if invalid.
@@ -985,6 +994,7 @@ const Editor = {
         const x = pos.x ?? 0;
         const y = pos.y ?? 0;
         const z = pos.z ?? -4;
+        const is180 = this._currentProjection() === "180";
 
         // Horizontal angle: atan2(x, -z) → 0 = straight ahead
         const theta = Math.atan2(x, -z);
@@ -992,10 +1002,11 @@ const Editor = {
         const dist = Math.sqrt(x * x + z * z);
         const phi = Math.atan2(y - this._eyeHeight, dist);
 
-        // Map to percentage (equirectangular projection)
-        // theta: -π..π → 0..100%
-        // phi: π/2..-π/2 → 0..100%
-        const percentX = 50 + (theta / Math.PI) * 50;
+        // Map to percentage
+        // 360°: theta -π..π → 0..100%
+        // 180°: theta -π/2..π/2 → 0..100%
+        const thetaRange = is180 ? (Math.PI / 2) : Math.PI;
+        const percentX = 50 + (theta / thetaRange) * 50;
         const percentY = 50 - (phi / (Math.PI / 2)) * 50;
 
         return { x: percentX, y: percentY };
@@ -1007,9 +1018,11 @@ const Editor = {
      */
     _previewToPosition(percentX, percentY, originalZ) {
         const dist = Math.abs(originalZ || -4);
+        const is180 = this._currentProjection() === "180";
 
         // Reverse the equirectangular mapping
-        const theta = ((percentX - 50) / 50) * Math.PI;
+        const thetaRange = is180 ? (Math.PI / 2) : Math.PI;
+        const theta = ((percentX - 50) / 50) * thetaRange;
         const phi = ((50 - percentY) / 50) * (Math.PI / 2);
 
         // Convert back to 3D
@@ -1040,8 +1053,10 @@ const Editor = {
         const angW = 2 * Math.atan(w / 2 / dist);
         const angH = 2 * Math.atan(h / 2 / dist);
 
-        // Map to preview pixels
-        const pxW = (angW / (2 * Math.PI)) * overlayRect.width;
+        // Map to preview pixels (180° uses half the horizontal angle range)
+        const is180 = this._currentProjection() === "180";
+        const fullAngW = is180 ? Math.PI : (2 * Math.PI);
+        const pxW = (angW / fullAngW) * overlayRect.width;
         const pxH = (angH / Math.PI) * overlayRect.height;
 
         return {
@@ -1134,8 +1149,10 @@ const Editor = {
         let html = '';
 
         // FOV indicator (~90° horizontal = what Quest roughly shows)
-        const fovLeft = 50 - (45 / 180) * 50; // 45° left
-        const fovRight = 50 + (45 / 180) * 50; // 45° right
+        const is180 = this._currentProjection() === "180";
+        const fovDegRange = is180 ? 90 : 180; // half of the total degrees visible
+        const fovLeft = 50 - (45 / fovDegRange) * 50; // 45° left
+        const fovRight = 50 + (45 / fovDegRange) * 50; // 45° right
         html += `<div class="preview-overlay-fov" style="left: ${fovLeft}%; width: ${fovRight - fovLeft}%;"></div>`;
 
         // Center crosshair (camera look direction)

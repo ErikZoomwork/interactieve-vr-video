@@ -106,6 +106,13 @@
                         <input type="checkbox" id="input-video-loop" onchange="Editor.updateCurrentVideo('loop', this.checked)" />
                         <span>Video herhalen (loop)</span>
                     </label>
+                    <label>
+                        <span>Projectie:</span>
+                        <select id="input-video-projection" onchange="Editor.updateCurrentVideo('projection', this.value)">
+                            <option value="360">360° (volledig rondom)</option>
+                            <option value="180">180° (halve bol)</option>
+                        </select>
+                    </label>
                 </div>
             </div>
 
