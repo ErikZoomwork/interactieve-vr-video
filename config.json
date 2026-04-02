@@ -44,8 +44,34 @@
           "text": "Hoe Heet Dit 2",
           "goTo": "",
           "position": {
-            "x": 1,
-            "y": -67512425013967310,
+            "x": 3,
+            "y": 1.2,
+            "z": -4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "timing": {},
+          "style": {
+            "backgroundColor": "#2196F3",
+            "textColor": "#FFFFFF",
+            "width": 2.5,
+            "height": 0.6,
+            "borderRadius": 0.08,
+            "fontSize": 3,
+            "opacity": 0.95,
+            "hoverColor": "#1565C0"
+          }
+        },
+        {
+          "id": "btn-1775129059430",
+          "text": "Nieuwe knop",
+          "goTo": "",
+          "position": {
+            "x": 0,
+            "y": 0,
             "z": -4
           },
           "rotation": {
