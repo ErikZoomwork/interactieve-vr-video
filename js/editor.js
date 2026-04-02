@@ -651,18 +651,93 @@ const Editor = {
     },
 
     // ===== IMPORT / EXPORT =====
-    publishConfig() {
+
+    // GitHub repo info
+    _ghOwner: 'ErikZoomwork',
+    _ghRepo: 'interactieve-vr-video',
+    _ghBranch: 'master',
+
+    async publishConfig() {
+        const token = localStorage.getItem('gh_token');
+        if (!token) {
+            this._showGitHubTokenPrompt();
+            return;
+        }
+
         const json = JSON.stringify(this.config, null, 2);
-        const blob = new Blob([json], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'config.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        alert('config.json gedownload!\n\nPlaats dit bestand in de hoofdmap van je project en push naar GitHub:\n\n1. Kopieer config.json naar K:\\Interactieve VR Video\\\n2. git add config.json\n3. git commit -m "Update config"\n4. git push');
+        const btn = document.querySelector('.btn-success');
+        const originalText = btn.textContent;
+        btn.textContent = '⏳ Publiceren...';
+        btn.disabled = true;
+
+        try {
+            // Get current file SHA (needed for update)
+            let sha = null;
+            try {
+                const getResp = await fetch(
+                    `https://api.github.com/repos/${this._ghOwner}/${this._ghRepo}/contents/config.json?ref=${this._ghBranch}`,
+                    { headers: { 'Authorization': `token ${token}` } }
+                );
+                if (getResp.ok) {
+                    const data = await getResp.json();
+                    sha = data.sha;
+                }
+            } catch (e) { /* file doesn't exist yet, that's fine */ }
+
+            // Create/update file via GitHub API
+            const body = {
+                message: 'Update config via editor',
+                content: btoa(unescape(encodeURIComponent(json))),
+                branch: this._ghBranch
+            };
+            if (sha) body.sha = sha;
+
+            const resp = await fetch(
+                `https://api.github.com/repos/${this._ghOwner}/${this._ghRepo}/contents/config.json`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }
+            );
+
+            if (resp.status === 401) {
+                localStorage.removeItem('gh_token');
+                alert('GitHub token is ongeldig of verlopen. Voer een nieuwe in.');
+                this._showGitHubTokenPrompt();
+                return;
+            }
+
+            if (!resp.ok) {
+                const err = await resp.json();
+                throw new Error(err.message || 'Onbekende fout');
+            }
+
+            btn.textContent = '✅ Gepubliceerd!';
+            setTimeout(() => { btn.textContent = originalText; }, 2000);
+
+        } catch (e) {
+            alert('Fout bij publiceren: ' + e.message);
+            btn.textContent = originalText;
+        } finally {
+            btn.disabled = false;
+        }
+    },
+
+    _showGitHubTokenPrompt() {
+        const token = prompt(
+            'Voer je GitHub Personal Access Token in.\n\n' +
+            'Maak er een aan op: github.com/settings/tokens\n' +
+            'Geef het "repo" rechten.\n\n' +
+            'Het token wordt lokaal opgeslagen in je browser.'
+        );
+        if (token && token.trim()) {
+            localStorage.setItem('gh_token', token.trim());
+            this.publishConfig(); // Probeer opnieuw
+        }
     },
 
     exportConfig() {
