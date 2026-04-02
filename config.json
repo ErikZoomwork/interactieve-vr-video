@@ -67,7 +67,7 @@
         }
       ],
       "sourceType": "url",
-      "projection": "360"
+      "projection": "180"
     }
   },
   "defaultButtonStyle": {
