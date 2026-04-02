@@ -154,6 +154,9 @@ class ButtonFactory {
         }
     }
 
+    /** Ooghoogte offset — y=0 in config = ooghoogte in VR */
+    static EYE_HEIGHT = 1.6;
+
     /** Maak een enkele button entity */
     _createButton(config) {
         const style = this._mergeStyle(config.style);
@@ -161,7 +164,8 @@ class ButtonFactory {
         // Hoofd-entity (groep)
         const group = document.createElement("a-entity");
         group.setAttribute("id", config.id);
-        group.setAttribute("position", `${config.position.x} ${config.position.y} ${config.position.z}`);
+        const yWorld = config.position.y + ButtonFactory.EYE_HEIGHT;
+        group.setAttribute("position", `${config.position.x} ${yWorld} ${config.position.z}`);
 
         const rot = config.rotation || { x: 0, y: 0, z: 0 };
         group.setAttribute("rotation", `${rot.x} ${rot.y} ${rot.z}`);

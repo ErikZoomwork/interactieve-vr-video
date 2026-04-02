@@ -449,7 +449,7 @@ const Editor = {
             id: "btn-" + Date.now(),
             text: "Nieuwe knop",
             goTo: "",
-            position: { x: 0, y: 1.6, z: -4 },
+            position: { x: 0, y: 0, z: -4 },
             rotation: { x: 0, y: 0, z: 0 },
             timing: {},
             style: {
@@ -520,7 +520,7 @@ const Editor = {
     updateButtonPos(axis, value) {
         if (this.selectedButtonIndex === null) return;
         const btn = this.config.videos[this.selectedVideoId].buttons[this.selectedButtonIndex];
-        if (!btn.position) btn.position = { x: 0, y: 1.6, z: -4 };
+        if (!btn.position) btn.position = { x: 0, y: 0, z: -4 };
         btn.position[axis] = parseFloat(value) || 0;
         this.save();
         this._renderButtonList(this.config.videos[this.selectedVideoId].buttons);
@@ -974,8 +974,8 @@ const Editor = {
 
     // ===== 360° PREVIEW OVERLAY =====
 
-    // Camera eye height in the VR scene (Quest local-floor places camera at ~1.6m)
-    _eyeHeight: 1.6,
+    // Camera eye height: 0 because button positions are eye-relative (button-factory adds 1.6m)
+    _eyeHeight: 0,
 
     /**
      * Convert 3D button position to 2D percentage on equirectangular preview.
