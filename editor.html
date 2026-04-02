@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Video Editor</title>
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="editor-header">
+    <div class="header-left">
+        <h1>🎬 VR Video Editor</h1>
+    </div>
+    <div class="header-right">
+        <button class="btn btn-secondary" onclick="Editor.importConfig()">📂 Importeer Config</button>
+        <button class="btn btn-secondary" onclick="Editor.exportConfig()">💾 Exporteer Config</button>
+        <button class="btn btn-accent" onclick="Editor.exportForQuest()">🥽 Exporteer voor Quest</button>
+        <a href="index.html" class="btn btn-primary" target="_blank">▶ Preview VR</a>
+    </div>
+</header>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div id="editor-layout">
+
+    <!-- ===== LINKER PANEEL: VIDEO LIJST ===== -->
+    <aside id="panel-videos">
+        <div class="panel-header">
+            <h2>📹 Video's</h2>
+            <button class="btn btn-small btn-primary" onclick="Editor.addVideo()">+ Video</button>
+        </div>
+        <div id="video-list" class="panel-content">
+            <!-- Video items worden hier dynamisch toegevoegd -->
+        </div>
+        <div class="panel-footer">
+            <label class="setting-row">
+                <span>Startvideo:</span>
+                <select id="setting-start-video" onchange="Editor.updateSetting('startVideo', this.value)"></select>
+            </label>
+        </div>
+    </aside>
+
+    <!-- ===== MIDDEN: PREVIEW & BUTTON EDITOR ===== -->
+    <main id="panel-main">
+        <!-- Geen video geselecteerd -->
+        <div id="empty-state">
+            <div id="drop-zone-empty" class="drop-zone">
+                <div class="empty-icon">📹</div>
+                <h2>Geen video geselecteerd</h2>
+                <p>Klik op "+ Video" om een video toe te voegen, of <strong>sleep een videobestand hierheen</strong>.</p>
+            </div>
+        </div>
+
+        <!-- Video editor (verborgen tot selectie) -->
+        <div id="video-editor" style="display:none;">
+            <!-- Video preview bovenaan -->
+            <div id="video-preview-area">
+                <div id="preview-container">
+                    <div id="drop-zone-video" class="drop-zone drop-zone-overlay">
+                        <div class="drop-zone-content">
+                            <span class="drop-icon">📁</span>
+                            <span>Laat los om video te laden</span>
+                        </div>
+                    </div>
+                    <video id="preview-video" controls></video>
+                    <!-- Button previews als overlay -->
+                    <div id="preview-overlay">
+                        <!-- Preview buttons verschijnen hier -->
+                    </div>
+                </div>
+                <div id="video-info-bar">
+                    <label>
+                        <span>Video ID:</span>
+                        <input type="text" id="input-video-id" onchange="Editor.renameCurrentVideo(this.value)" />
+                    </label>
+                    <label>
+                        <span>Bron type:</span>
+                        <div class="source-type-group">
+                            <label class="radio-label">
+                                <input type="radio" name="source-type" value="file" onchange="Editor.updateSourceType('file')" checked />
+                                <span>📁 Lokaal bestand</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="source-type" value="url" onchange="Editor.updateSourceType('url')" />
+                                <span>🌐 URL (Vimeo, extern)</span>
+                            </label>
+                        </div>
+                    </label>
+                    <label id="source-file-group">
+                        <span>Videobestand:</span>
+                        <div class="file-input-group">
+                            <input type="text" id="input-video-src" placeholder="videos/mijn-video.mp4" onchange="Editor.updateCurrentVideo('src', this.value)" />
+                            <input type="file" id="file-video-src" accept="video/*" onchange="Editor.handleVideoFile(this)" style="display:none" />
+                            <button class="btn btn-small" onclick="document.getElementById('file-video-src').click()">Bladeren</button>
+                        </div>
+                    </label>
+                    <label id="source-url-group" style="display:none;">
+                        <span>Video URL:</span>
+                        <input type="url" id="input-video-url" placeholder="https://player.vimeo.com/external/...mp4" onchange="Editor.updateCurrentVideo('src', this.value)" />
+                        <small class="help-text">Gebruik een directe video-URL (MP4). Voor Vimeo: gebruik de directe link uit "Delen" → "Link naar videobestand".</small>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="input-video-loop" onchange="Editor.updateCurrentVideo('loop', this.checked)" />
+                        <span>Video herhalen (loop)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Buttons van deze video -->
+            <div id="buttons-section">
+                <div class="section-header">
+                    <h3>🔘 Knoppen bij deze video</h3>
+                    <button class="btn btn-small btn-primary" onclick="Editor.addButton()">+ Knop toevoegen</button>
+                </div>
+                <div id="button-list">
+                    <!-- Buttons worden hier dynamisch toegevoegd -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== RECHTER PANEEL: KNOP EDITOR ===== -->
+    <aside id="panel-button-editor" style="display:none;">
+        <div class="panel-header">
+            <h2>✏️ Knop bewerken</h2>
+            <button class="btn btn-small btn-ghost" onclick="Editor.closeButtonEditor()">✕</button>
+        </div>
+        <div class="panel-content" id="button-editor-content">
+            <!-- Tekst & Navigatie -->
+            <fieldset>
+                <legend>Tekst & Navigatie</legend>
+                <label>
+                    <span>Tekst op knop:</span>
+                    <input type="text" id="btn-edit-text" placeholder="Klik hier!" oninput="Editor.updateButton('text', this.value)" />
+                </label>
+                <label>
+                    <span>Navigeer naar video:</span>
+                    <select id="btn-edit-goto" onchange="Editor.updateButton('goTo', this.value)"></select>
+                </label>
+            </fieldset>
+
+            <!-- Timing -->
+            <fieldset>
+                <legend>⏱ Timing (wanneer verschijnt de knop?)</legend>
+                <label>
+                    <span>Verschijnt op (seconden):</span>
+                    <div class="timing-input-group">
+                        <input type="number" id="btn-edit-show-at" step="0.5" min="0" placeholder="0" oninput="Editor.updateButtonTiming('showAt', this.value)" />
+                        <span class="timing-label">sec</span>
+                    </div>
+                    <small class="help-text">Laat leeg of 0 = direct zichtbaar bij start video</small>
+                </label>
+                <label>
+                    <span>Verdwijnt op (seconden):</span>
+                    <div class="timing-input-group">
+                        <input type="number" id="btn-edit-hide-at" step="0.5" min="0" placeholder="" oninput="Editor.updateButtonTiming('hideAt', this.value)" />
+                        <span class="timing-label">sec</span>
+                    </div>
+                    <small class="help-text">Laat leeg = blijft zichtbaar tot einde video</small>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="btn-edit-show-on-end" onchange="Editor.updateButtonTiming('showOnEnd', this.checked)" />
+                    <span>Toon pas als video is afgelopen</span>
+                </label>
+                <div id="timing-preview" class="timing-bar"></div>
+            </fieldset>
+
+            <!-- Positie -->
+            <fieldset>
+                <legend>Positie (3D)</legend>
+                <div class="position-grid">
+                    <label>
+                        <span>X <small>(links/rechts)</small></span>
+                        <input type="number" id="btn-edit-pos-x" step="0.1" oninput="Editor.updateButtonPos('x', this.value)" />
+                    </label>
+                    <label>
+                        <span>Y <small>(boven/onder)</small></span>
+                        <input type="number" id="btn-edit-pos-y" step="0.1" oninput="Editor.updateButtonPos('y', this.value)" />
+                    </label>
+                    <label>
+                        <span>Z <small>(afstand)</small></span>
+                        <input type="number" id="btn-edit-pos-z" step="0.1" oninput="Editor.updateButtonPos('z', this.value)" />
+                    </label>
+                </div>
+                <div class="position-grid">
+                    <label>
+                        <span>Rotatie Y</span>
+                        <input type="number" id="btn-edit-rot-y" step="5" oninput="Editor.updateButtonRot('y', this.value)" />
+                    </label>
+                </div>
+            </fieldset>
+
+            <!-- Uiterlijk -->
+            <fieldset>
+                <legend>Uiterlijk</legend>
+                <label>
+                    <span>Achtergrondkleur:</span>
+                    <div class="color-input-group">
+                        <input type="color" id="btn-edit-bgcolor" oninput="Editor.updateButtonStyle('backgroundColor', this.value)" />
+                        <input type="text" id="btn-edit-bgcolor-text" placeholder="#2196F3" oninput="Editor.updateButtonStyle('backgroundColor', this.value)" />
+                    </div>
+                </label>
+                <label>
+                    <span>Hover kleur:</span>
+                    <div class="color-input-group">
+                        <input type="color" id="btn-edit-hovercolor" oninput="Editor.updateButtonStyle('hoverColor', this.value)" />
+                        <input type="text" id="btn-edit-hovercolor-text" placeholder="#1565C0" oninput="Editor.updateButtonStyle('hoverColor', this.value)" />
+                    </div>
+                </label>
+                <label>
+                    <span>Tekstkleur:</span>
+                    <div class="color-input-group">
+                        <input type="color" id="btn-edit-textcolor" oninput="Editor.updateButtonStyle('textColor', this.value)" />
+                        <input type="text" id="btn-edit-textcolor-text" placeholder="#FFFFFF" oninput="Editor.updateButtonStyle('textColor', this.value)" />
+                    </div>
+                </label>
+                <label>
+                    <span>Breedte:</span>
+                    <input type="number" id="btn-edit-width" step="0.1" min="0.5" max="6" oninput="Editor.updateButtonStyle('width', parseFloat(this.value))" />
+                </label>
+                <label>
+                    <span>Hoogte:</span>
+                    <input type="number" id="btn-edit-height" step="0.1" min="0.2" max="3" oninput="Editor.updateButtonStyle('height', parseFloat(this.value))" />
+                </label>
+                <label>
+                    <span>Lettergrootte:</span>
+                    <input type="range" id="btn-edit-fontsize" min="1" max="8" step="0.5" oninput="Editor.updateButtonStyle('fontSize', parseFloat(this.value))" />
+                    <span id="btn-edit-fontsize-val" class="range-val"></span>
+                </label>
+                <label>
+                    <span>Doorzichtigheid:</span>
+                    <input type="range" id="btn-edit-opacity" min="0" max="1" step="0.05" oninput="Editor.updateButtonStyle('opacity', parseFloat(this.value))" />
+                    <span id="btn-edit-opacity-val" class="range-val"></span>
+                </label>
+            </fieldset>
+
+            <!-- Afbeeldingen -->
+            <fieldset>
+                <legend>Afbeeldingen (optioneel)</legend>
+                <label>
+                    <span>Achtergrondafbeelding:</span>
+                    <div class="file-input-group">
+                        <input type="text" id="btn-edit-bgimage" placeholder="images/foto.jpg" oninput="Editor.updateButtonStyle('backgroundImage', this.value)" />
+                        <input type="file" id="file-btn-bgimage" accept="image/*" onchange="Editor.handleButtonImage(this, 'backgroundImage')" style="display:none" />
+                        <button class="btn btn-small" onclick="document.getElementById('file-btn-bgimage').click()">📁</button>
+                        <button class="btn btn-small btn-ghost" onclick="Editor.clearButtonImage('backgroundImage')" title="Verwijderen">✕</button>
+                    </div>
+                    <div id="btn-bgimage-preview" class="image-preview"></div>
+                </label>
+                <label>
+                    <span>Icoon (links van tekst):</span>
+                    <div class="file-input-group">
+                        <input type="text" id="btn-edit-icon" placeholder="images/icoon.png" oninput="Editor.updateButtonStyle('icon', this.value)" />
+                        <input type="file" id="file-btn-icon" accept="image/*" onchange="Editor.handleButtonImage(this, 'icon')" style="display:none" />
+                        <button class="btn btn-small" onclick="document.getElementById('file-btn-icon').click()">📁</button>
+                        <button class="btn btn-small btn-ghost" onclick="Editor.clearButtonImage('icon')" title="Verwijderen">✕</button>
+                    </div>
+                    <div id="btn-icon-preview" class="image-preview"></div>
+                </label>
+            </fieldset>
+
+            <!-- Live preview van de knop -->
+            <fieldset>
+                <legend>Voorbeeld</legend>
+                <div id="button-live-preview">
+                    <div id="preview-btn" class="preview-button">Knop voorbeeld</div>
+                </div>
+            </fieldset>
+
+            <!-- Verwijderen -->
+            <div class="danger-zone">
+                <button class="btn btn-danger" onclick="Editor.deleteCurrentButton()">🗑 Knop verwijderen</button>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- ===== IMPORT/EXPORT MODAL ===== -->
+<div id="modal-overlay" style="display:none;" onclick="Editor.closeModal()">
+    <div id="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 id="modal-title">Config</h3>
+            <button class="btn btn-small btn-ghost" onclick="Editor.closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <textarea id="modal-textarea" rows="20" spellcheck="false"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="Editor.closeModal()">Annuleren</button>
+            <button class="btn btn-primary" id="modal-action-btn" onclick="Editor.modalAction()">Toepassen</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== EXPORT VOOR QUEST MODAL ===== -->
+<div id="export-overlay" style="display:none;" onclick="Editor.closeExportModal()">
+    <div id="export-modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3>🥽 Exporteer voor Quest</h3>
+            <button class="btn btn-small btn-ghost" onclick="Editor.closeExportModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <p class="export-description">
+                Dit maakt één HTML-bestand aan met alle code erin. Kopieer dit bestand
+                samen met de <strong>videos/</strong> map naar je Meta Quest 3 — klaar!
+            </p>
+
+            <div id="export-step-files">
+                <h4>📋 Bestanden in deze export</h4>
+                <p class="help-text" style="margin-bottom: 12px;">De video's worden via relatieve paden geladen. Zorg dat de videobestanden naast het HTML-bestand staan.</p>
+                <div id="export-file-list">
+                    <!-- Dynamisch gevuld -->
+                </div>
+                <div class="export-instructions">
+                    <h4>📦 Na het exporteren</h4>
+                    <ol>
+                        <li>Maak een map aan op je Quest (bijv. <code>VR-Video</code>)</li>
+                        <li>Kopieer <code>vr-ervaring.html</code> naar die map</li>
+                        <li>Kopieer de <code>videos/</code> map met je videobestanden ernaast</li>
+                        <li>Open het HTML-bestand in de Meta Quest Browser</li>
+                    </ol>
+                </div>
+                <div style="margin-top: 16px; text-align: right;">
+                    <button class="btn btn-primary" onclick="Editor.startExport()" id="btn-start-export">🚀 Exporteer HTML</button>
+                </div>
+            </div>
+
+            <div id="export-step-done" style="display:none;">
+                <div class="export-done-icon">✅</div>
+                <h4>Export gereed!</h4>
+                <p>Kopieer <strong>vr-ervaring.html</strong> + de <strong>videos/</strong> map naar je Meta Quest 3.</p>
+                <div style="margin-top: 16px;">
+                    <button class="btn btn-primary" onclick="Editor.closeExportModal()">Sluiten</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/editor.js"></script>
+</body>
+</html>

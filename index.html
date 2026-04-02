@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactieve VR Video</title>
+
+    <!-- A-Frame VR Framework -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <!-- Stijlen -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ==================== STARTSCHERM ==================== -->
+    <div id="start-screen">
+        <div class="start-content">
+            <h1>🎬 Interactieve VR Video</h1>
+            <p>Zet je Meta Quest 3 op en klik op start om te beginnen.</p>
+            <button id="btn-start" onclick="startExperience()">▶ Start VR Ervaring</button>
+            <div style="margin-top: 2rem;">
+                <a href="editor.html" style="color: #81D4FA; text-decoration: none; font-size: 0.9rem;">✏️ Open Editor — video's en knoppen beheren</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== A-FRAME VR SCENE ==================== -->
+    <a-scene
+        id="vr-scene"
+        vr-mode-ui="enabled: true"
+        webxr="requiredFeatures: local-floor; optionalFeatures: hand-tracking"
+        loading-screen="enabled: false"
+        renderer="colorManagement: true"
+        style="display: none;"
+    >
+        <!-- ===== Assets: video's worden hier dynamisch geladen ===== -->
+        <a-assets id="asset-container" timeout="60000">
+            <!-- Video's worden dynamisch toegevoegd via JavaScript -->
+        </a-assets>
+
+        <!-- ===== 360° Video Sphere ===== -->
+        <a-videosphere
+            id="video-sphere"
+            src=""
+            rotation="0 -90 0"
+        ></a-videosphere>
+
+        <!-- ===== Camera met cursor (voor gaze/blik-selectie) ===== -->
+        <a-entity id="camera-rig" position="0 1.6 0">
+            <a-camera
+                id="main-camera"
+                look-controls="pointerLockEnabled: false"
+                wasd-controls="enabled: false"
+            >
+                <!-- Gaze cursor: kijk naar een button om te selecteren -->
+                <a-entity
+                    id="gaze-cursor"
+                    cursor="fuse: true; fuseTimeout: 2000"
+                    raycaster="objects: .clickable; far: 20"
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
+                    material="color: white; shader: flat; opacity: 0.8"
+                    animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
+                    animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 2000; from: 1 1 1; to: 0.1 0.1 0.1"
+                    animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+                >
+                    <!-- Fuse timer ring -->
+                    <a-entity
+                        id="fuse-loader"
+                        geometry="primitive: ring; radiusInner: 0.018; radiusOuter: 0.025; thetaLength: 0"
+                        material="color: #4FC3F7; shader: flat; opacity: 0.9"
+                    ></a-entity>
+                </a-entity>
+            </a-camera>
+        </a-entity>
+
+        <!-- ===== Controller raycasters (voor Meta Quest controllers) ===== -->
+        <a-entity
+            id="left-hand"
+            laser-controls="hand: left"
+            raycaster="objects: .clickable; far: 20"
+        ></a-entity>
+        <a-entity
+            id="right-hand"
+            laser-controls="hand: right"
+            raycaster="objects: .clickable; far: 20"
+        ></a-entity>
+
+        <!-- ===== Container voor interactieve buttons ===== -->
+        <a-entity id="button-container"></a-entity>
+
+        <!-- ===== Fade overlay voor transities ===== -->
+        <a-sphere
+            id="fade-sphere"
+            radius="0.5"
+            material="color: black; shader: flat; opacity: 0; side: back; transparent: true"
+            position="0 1.6 0"
+        ></a-sphere>
+
+    </a-scene>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script src="js/config.js"></script>
+    <script src="js/video-manager.js"></script>
+    <script src="js/button-factory.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
