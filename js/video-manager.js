@@ -74,10 +74,10 @@ class VideoManager {
                 radius: 5000,
                 segmentsWidth: 64,
                 segmentsHeight: 20,
-                thetaLength: 180,
-                thetaStart: 0,
+                phiLength: 180,
                 phiStart: 0,
-                phiLength: 360
+                thetaStart: 0,
+                thetaLength: 180
             });
             this.videoSphere.setAttribute("rotation", "0 180 0");
         } else {
@@ -86,10 +86,10 @@ class VideoManager {
                 radius: 5000,
                 segmentsWidth: 64,
                 segmentsHeight: 20,
-                thetaLength: 360,
-                thetaStart: 0,
+                phiLength: 360,
                 phiStart: 0,
-                phiLength: 360
+                thetaStart: 0,
+                thetaLength: 180
             });
             this.videoSphere.setAttribute("rotation", "0 -90 0");
         }
