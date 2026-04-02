@@ -1,0 +1,54 @@
+{
+  "settings": {
+    "startVideo": "video-1",
+    "fadeTransitionMs": 800,
+    "gazeTimeout": 2000,
+    "showCursorAlways": true,
+    "loopVideos": true
+  },
+  "videos": {
+    "video-1": {
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1118998133/rendition/2160p/file.mp4%20%282160p%29.mp4?loc=external&log_user=0&signature=3d14e7304054c70797d8e3a108821af4e11a3ec1e1b830533d9c4b7201c05019",
+      "loop": true,
+      "buttons": [
+        {
+          "id": "btn-1775119044864",
+          "text": "Nieuwe knop",
+          "goTo": "",
+          "position": {
+            "x": 0.9,
+            "y": 1.8,
+            "z": -4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "timing": {},
+          "style": {
+            "backgroundColor": "#2196F3",
+            "textColor": "#FFFFFF",
+            "width": 2.5,
+            "height": 0.6,
+            "borderRadius": 0.08,
+            "fontSize": 3,
+            "opacity": 0.95,
+            "hoverColor": "#1565C0"
+          }
+        }
+      ],
+      "sourceType": "url"
+    }
+  },
+  "defaultButtonStyle": {
+    "backgroundColor": "#333333",
+    "textColor": "#FFFFFF",
+    "width": 2,
+    "height": 0.5,
+    "borderRadius": 0.05,
+    "fontSize": 3,
+    "opacity": 0.9,
+    "hoverColor": "#555555"
+  }
+}
