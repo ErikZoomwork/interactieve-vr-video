@@ -178,7 +178,10 @@ class ButtonFactory {
             panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
             panel.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
         } else {
-            // Afgeronde rechthoek
+            // Onzichtbare plane als raycast-target (A-Frame raycaster detecteert standaard geometry)
+            panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
+            panel.setAttribute("material", `shader: flat; opacity: 0; transparent: true; side: double`);
+            // Visuele afgeronde rechthoek
             panel.setAttribute("rounded-rect", `width: ${style.width}; height: ${style.height}; radius: ${style.borderRadius}; color: ${style.backgroundColor}; opacity: ${style.opacity}`);
         }
 

@@ -51,6 +51,17 @@ class VideoManager {
 
         this.isTransitioning = true;
 
+        // Bereid de nieuwe video voor (start in user-gesture context voor audio)
+        const newVideo = this.videoElements[videoId];
+        newVideo.muted = false;
+        try {
+            await newVideo.play();
+        } catch (err) {
+            console.warn("Autoplay geblokkeerd, gebruikersinteractie nodig:", err);
+        }
+        newVideo.pause();
+        newVideo.currentTime = 0;
+
         // Fade naar zwart
         await this._fadeOut();
 
@@ -62,7 +73,6 @@ class VideoManager {
         }
 
         // Stel de nieuwe video in
-        const newVideo = this.videoElements[videoId];
         this.videoSphere.setAttribute("src", `#video-${videoId}`);
 
         // Stel projectie in (180° of 360°)
@@ -78,7 +88,7 @@ class VideoManager {
 
         this.currentVideoId = videoId;
 
-        // Start de video
+        // Hervat de video
         try {
             await newVideo.play();
         } catch (err) {
