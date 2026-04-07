@@ -1,256 +1,276 @@
-{
-  "settings": {
-    "startVideo": "video-1",
-    "fadeTransitionMs": 800,
-    "gazeTimeout": 2000,
-    "showCursorAlways": true,
-    "loopVideos": true
-  },
-  "videos": {
-    "video-1": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=b41aa0c5f69d02a7910384e79950d2d1e95f23584730cb0c8f64d54944bab7ef",
-      "loop": false,
-      "buttons": [
-        {
-          "id": "btn-1775561688939",
-          "text": "Wat maken die paar centen nou uit",
-          "goTo": "video-2",
-          "position": {
-            "x": -1,
-            "y": 0,
-            "z": -2
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        },
-        {
-          "id": "btn-1775561755467",
-          "text": "Dat had hij ook even kunnen vragen (kopie)",
-          "goTo": "video-2",
-          "position": {
-            "x": 1,
-            "y": 0,
-            "z": -2
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        }
-      ],
-      "sourceType": "url",
-      "projection": "360"
-    },
-    "video-2": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=b8d4a0d718b0a85b42676de199aaa88bebaf43d692bce9dcb2e568dbe2b43b45",
-      "loop": false,
-      "buttons": [
-        {
-          "id": "btn-1775561881882",
-          "text": "Nieuwe knop",
-          "goTo": "video-3",
-          "position": {
-            "x": 3,
-            "y": 0,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        },
-        {
-          "id": "btn-1775561889625",
-          "text": "Nieuwe knop (kopie)",
-          "goTo": "video-3",
-          "position": {
-            "x": -2.5,
-            "y": 0,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        }
-      ],
-      "sourceType": "url"
-    },
-    "video-3": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787897/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=307faab50e6a4e2ad6bae65a835fce0e38873e5f52805f116bf4283f7f7520f2",
-      "loop": false,
-      "buttons": [
-        {
-          "id": "btn-1775561908849",
-          "text": "Nieuwe knop",
-          "goTo": "video-4",
-          "position": {
-            "x": -3,
-            "y": 0,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        },
-        {
-          "id": "btn-1775561910090",
-          "text": "Nieuwe knop",
-          "goTo": "video-4",
-          "position": {
-            "x": 3,
-            "y": 0,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        }
-      ],
-      "sourceType": "url"
-    },
-    "video-4": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787938/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=264cacd118ad83427e1d929341cac6540693822f19f14289299ebcf6133fe327",
-      "loop": false,
-      "buttons": [
-        {
-          "id": "btn-1775561940938",
-          "text": "Nieuwe knop",
-          "goTo": "video-1",
-          "position": {
-            "x": -3,
-            "y": 0,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        },
-        {
-          "id": "btn-1775561943858",
-          "text": "Nieuwe knop (kopie)",
-          "goTo": "video-1",
-          "position": {
-            "x": 3,
-            "y": 0,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        }
-      ],
-      "sourceType": "url"
-    }
-  },
-  "defaultButtonStyle": {
-    "backgroundColor": "#333333",
-    "textColor": "#FFFFFF",
-    "width": 2,
-    "height": 0.5,
-    "borderRadius": 0.05,
-    "fontSize": 3,
-    "opacity": 0.9,
-    "hoverColor": "#555555"
-  }
+﻿{
+    "settings":  {
+                     "startVideo":  "video-1",
+                     "fadeTransitionMs":  800,
+                     "gazeTimeout":  2000,
+                     "showCursorAlways":  true,
+                     "loopVideos":  true
+                 },
+    "videos":  {
+                   "video-1":  {
+                                   "src":  "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external\u0026log_user=0\u0026signature=b41aa0c5f69d02a7910384e79950d2d1e95f23584730cb0c8f64d54944bab7ef",
+                                   "loop":  false,
+                                   "buttons":  [
+                                                   {
+                                                       "id":  "btn-1775561688939",
+                                                       "text":  "Wat maken die paar centen nou uit",
+                                                       "goTo":  "video-2",
+                                                       "position":  {
+                                                                        "x":  -1,
+                                                                        "y":  0,
+                                                                        "z":  -2
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   },
+                                                   {
+                                                       "id":  "btn-1775561755467",
+                                                       "text":  "Dat had hij ook even kunnen vragen (kopie)",
+                                                       "goTo":  "video-2",
+                                                       "position":  {
+                                                                        "x":  1,
+                                                                        "y":  0,
+                                                                        "z":  -2
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   }
+                                               ],
+                                   "sourceType":  "url",
+                                   "projection":  "360"
+                               },
+                   "video-2":  {
+                                   "src":  "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external\u0026log_user=0\u0026signature=b8d4a0d718b0a85b42676de199aaa88bebaf43d692bce9dcb2e568dbe2b43b45",
+                                   "loop":  false,
+                                   "buttons":  [
+                                                   {
+                                                       "id":  "btn-1775561881882",
+                                                       "text":  "Nieuwe knop",
+                                                       "goTo":  "video-3",
+                                                       "position":  {
+                                                                        "x":  3,
+                                                                        "y":  0,
+                                                                        "z":  -4
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "timing":  {
+
+                                                                  },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   },
+                                                   {
+                                                       "id":  "btn-1775561889625",
+                                                       "text":  "Nieuwe knop (kopie)",
+                                                       "goTo":  "video-3",
+                                                       "position":  {
+                                                                        "x":  -2.5,
+                                                                        "y":  0,
+                                                                        "z":  -4
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "timing":  {
+
+                                                                  },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   }
+                                               ],
+                                   "sourceType":  "url"
+                               },
+                   "video-3":  {
+                                   "src":  "https://player.vimeo.com/progressive_redirect/playback/1180787897/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external\u0026log_user=0\u0026signature=307faab50e6a4e2ad6bae65a835fce0e38873e5f52805f116bf4283f7f7520f2",
+                                   "loop":  false,
+                                   "buttons":  [
+                                                   {
+                                                       "id":  "btn-1775561908849",
+                                                       "text":  "Nieuwe knop",
+                                                       "goTo":  "video-4",
+                                                       "position":  {
+                                                                        "x":  -3,
+                                                                        "y":  0,
+                                                                        "z":  -4
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "timing":  {
+
+                                                                  },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   },
+                                                   {
+                                                       "id":  "btn-1775561910090",
+                                                       "text":  "Nieuwe knop",
+                                                       "goTo":  "video-4",
+                                                       "position":  {
+                                                                        "x":  3,
+                                                                        "y":  0,
+                                                                        "z":  -4
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "timing":  {
+
+                                                                  },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   }
+                                               ],
+                                   "sourceType":  "url"
+                               },
+                   "video-4":  {
+                                   "src":  "https://player.vimeo.com/progressive_redirect/playback/1180787938/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external\u0026log_user=0\u0026signature=264cacd118ad83427e1d929341cac6540693822f19f14289299ebcf6133fe327",
+                                   "loop":  false,
+                                   "buttons":  [
+                                                   {
+                                                       "id":  "btn-1775561940938",
+                                                       "text":  "Nieuwe knop",
+                                                       "goTo":  "video-1",
+                                                       "position":  {
+                                                                        "x":  -3,
+                                                                        "y":  0,
+                                                                        "z":  -4
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "timing":  {
+
+                                                                  },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   },
+                                                   {
+                                                       "id":  "btn-1775561943858",
+                                                       "text":  "Nieuwe knop (kopie)",
+                                                       "goTo":  "video-1",
+                                                       "position":  {
+                                                                        "x":  3,
+                                                                        "y":  0,
+                                                                        "z":  -4
+                                                                    },
+                                                       "rotation":  {
+                                                                        "x":  0,
+                                                                        "y":  0,
+                                                                        "z":  0
+                                                                    },
+                                                       "timing":  {
+
+                                                                  },
+                                                       "style":  {
+                                                                     "backgroundColor":  "#2196F3",
+                                                                     "textColor":  "#FFFFFF",
+                                                                     "width":  2.5,
+                                                                     "height":  0.6,
+                                                                     "borderRadius":  0.08,
+                                                                     "fontSize":  3,
+                                                                     "opacity":  0.95,
+                                                                     "hoverColor":  "#1565C0"
+                                                                 },
+                                                       "preset":  "ggd"
+                                                   }
+                                               ],
+                                   "sourceType":  "url"
+                               }
+               },
+    "defaultButtonStyle":  {
+                               "backgroundColor":  "#333333",
+                               "textColor":  "#FFFFFF",
+                               "width":  2,
+                               "height":  0.5,
+                               "borderRadius":  0.05,
+                               "fontSize":  3,
+                               "opacity":  0.9,
+                               "hoverColor":  "#555555"
+                           }
 }
