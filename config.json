@@ -8,66 +8,31 @@
   },
   "videos": {
     "video-1": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1177737413/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=67a3d06cffa2a7ea8fe5d83a07e6ff790c0127410e30f83bf46f1d5af614b3ed",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=b41aa0c5f69d02a7910384e79950d2d1e95f23584730cb0c8f64d54944bab7ef",
+      "loop": false,
+      "buttons": [],
+      "sourceType": "url"
+    },
+    "video-2": {
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=b8d4a0d718b0a85b42676de199aaa88bebaf43d692bce9dcb2e568dbe2b43b45",
+      "loop": false,
+      "buttons": [],
+      "sourceType": "url"
+    },
+    "video-3": {
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787897/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=307faab50e6a4e2ad6bae65a835fce0e38873e5f52805f116bf4283f7f7520f2",
+      "loop": false,
+      "buttons": []
+    },
+    "video-4": {
+      "src": "",
       "loop": true,
-      "buttons": [
-        {
-          "id": "btn-1775121833018",
-          "text": "Hoe Heet Dit",
-          "goTo": "",
-          "position": {
-            "x": 0,
-            "y": -0.6,
-            "z": -1
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {
-            "showAt": 3
-          },
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 3,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3.5,
-            "opacity": 1,
-            "hoverColor": "#1565C0"
-          }
-        },
-        {
-          "id": "btn-1775121835962",
-          "text": "Hoe Heet Dit 2",
-          "goTo": "",
-          "position": {
-            "x": 3,
-            "y": 1.2,
-            "z": -4
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "timing": {},
-          "style": {
-            "backgroundColor": "#2196F3",
-            "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
-            "borderRadius": 0.08,
-            "fontSize": 3,
-            "opacity": 0.95,
-            "hoverColor": "#1565C0"
-          }
-        }
-      ],
-      "sourceType": "url",
-      "projection": "180"
+      "buttons": []
+    },
+    "video-5": {
+      "src": "",
+      "loop": true,
+      "buttons": []
     }
   },
   "defaultButtonStyle": {
