@@ -14,6 +14,7 @@ class ButtonFactory {
         this.activeButtons = [];
         this._timedButtons = [];  // Buttons met timing-regels
         this._registerRoundedRect();
+        this._registerCardShape();
     }
 
     /** Registreer een custom A-Frame component voor afgeronde rechthoeken */
@@ -65,6 +66,59 @@ class ButtonFactory {
                 this.mesh = new THREE.Mesh(geometry, material);
                 this.el.setObject3D('mesh', this.mesh);
                 this.el.classList.add('clickable');
+            },
+            remove() {
+                if (this.mesh) {
+                    this.el.removeObject3D('mesh');
+                    this.mesh.geometry.dispose();
+                    this.mesh.material.dispose();
+                }
+            }
+        });
+    }
+
+    /** Registreer card-shape: rechthoek met alleen linksonder afgerond */
+    _registerCardShape() {
+        if (AFRAME.components['card-shape']) return;
+
+        AFRAME.registerComponent('card-shape', {
+            schema: {
+                width:   { type: 'number', default: 2 },
+                height:  { type: 'number', default: 0.5 },
+                radius:  { type: 'number', default: 0.15 },
+                color:   { type: 'color',  default: '#FFFFFF' },
+                opacity: { type: 'number', default: 1 },
+            },
+            init() {},
+            update() { this._build(); },
+            _build() {
+                const { width, height, radius, color, opacity } = this.data;
+                const shape = new THREE.Shape();
+                const w = width / 2, h = height / 2, r = Math.min(radius, w, h);
+
+                // Alleen linksonder afgerond
+                shape.moveTo(-w + r, -h);
+                shape.lineTo(w, -h);       // onder → rechtsonder (scherp)
+                shape.lineTo(w, h);        // rechts → rechtsboven (scherp)
+                shape.lineTo(-w, h);       // boven → linksboven (scherp)
+                shape.lineTo(-w, -h + r);  // links omlaag tot curve
+                shape.quadraticCurveTo(-w, -h, -w + r, -h); // linksonder afronden
+
+                const geometry = new THREE.ShapeGeometry(shape);
+                const material = new THREE.MeshBasicMaterial({
+                    color: new THREE.Color(color),
+                    side: THREE.FrontSide,
+                    transparent: opacity < 1,
+                    opacity: opacity,
+                    depthWrite: true
+                });
+
+                if (this.mesh) {
+                    this.mesh.geometry.dispose();
+                    this.mesh.material.dispose();
+                }
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.el.setObject3D('mesh', this.mesh);
             },
             remove() {
                 if (this.mesh) {
@@ -157,7 +211,7 @@ class ButtonFactory {
     /** Ooghoogte offset — y=0 in config = ooghoogte in VR */
     static EYE_HEIGHT = 1.6;
 
-    /** Maak een enkele button entity */
+    /** Maak een enkele button entity (card prefab) */
     _createButton(config) {
         const style = this._mergeStyle(config.style);
 
@@ -170,45 +224,48 @@ class ButtonFactory {
         const rot = config.rotation || { x: 0, y: 0, z: 0 };
         group.setAttribute("rotation", `${rot.x} ${rot.y} ${rot.z}`);
 
-        // Achtergrond: afgeronde rechthoek of afbeelding
+        const w = style.width, h = style.height;
+        const cornerRadius = h * 0.3;
+        const off = 0.04;
+
+        // Laag 1: Drop shadow
+        const shadow = document.createElement("a-entity");
+        shadow.setAttribute("card-shape", `width: ${w}; height: ${h}; radius: ${cornerRadius}; color: #000000; opacity: 0.2`);
+        shadow.setAttribute("position", `${off * 1.5} ${-off * 1.5} -0.02`);
+        group.appendChild(shadow);
+
+        // Laag 2: Accent (#b71c72)
+        const accent = document.createElement("a-entity");
+        accent.setAttribute("card-shape", `width: ${w}; height: ${h}; radius: ${cornerRadius}; color: #b71c72; opacity: 1`);
+        accent.setAttribute("position", `${off} ${-off} -0.01`);
+        group.appendChild(accent);
+
+        // Laag 3: Witte voorgrond (klikbaar)
         const panel = document.createElement("a-entity");
-
-        if (style.backgroundImage) {
-            // Afbeelding als achtergrond — gebruik a-plane
-            panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
-            panel.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
-        } else {
-            // Afgeronde rechthoek (mesh wordt via setObject3D geregistreerd voor raycasting)
-            panel.setAttribute("rounded-rect", `width: ${style.width}; height: ${style.height}; radius: ${style.borderRadius}; color: ${style.backgroundColor}; opacity: ${style.opacity}`);
-        }
-
+        panel.setAttribute("card-shape", `width: ${w}; height: ${h}; radius: ${cornerRadius}; color: #FFFFFF; opacity: 1`);
         panel.setAttribute("class", "clickable");
         panel.setAttribute("data-goto", config.goTo || "");
-
-        this._addHoverEffects(panel, style);
         this._addClickHandler(panel, config);
         group.appendChild(panel);
+
+        // Hover: schaal de hele groep
+        panel.addEventListener("mouseenter", () => {
+            group.setAttribute("scale", "1.05 1.05 1.05");
+        });
+        panel.addEventListener("mouseleave", () => {
+            group.setAttribute("scale", "1 1 1");
+        });
 
         // Tekst label
         if (config.text) {
             const text = document.createElement("a-text");
             text.setAttribute("value", config.text);
             text.setAttribute("align", "center");
-            text.setAttribute("color", style.textColor);
-            text.setAttribute("width", style.fontSize);
-            text.setAttribute("position", "0 0 0.05");
+            text.setAttribute("color", "#333333");
+            text.setAttribute("width", style.fontSize || 3);
+            text.setAttribute("position", "0 0 0.01");
             text.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
             group.appendChild(text);
-        }
-
-        // Optioneel: Icoon
-        if (style.icon) {
-            const icon = document.createElement("a-image");
-            icon.setAttribute("src", style.icon);
-            icon.setAttribute("width", style.height * 0.6);
-            icon.setAttribute("height", style.height * 0.6);
-            icon.setAttribute("position", `${-(style.width / 2) + 0.3} 0 0.05`);
-            group.appendChild(icon);
         }
 
         // Entrance animatie
