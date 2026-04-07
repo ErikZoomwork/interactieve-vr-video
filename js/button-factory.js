@@ -29,7 +29,7 @@ class ButtonFactory {
                 opacity: { type: 'number', default: 1 },
             },
             init() {
-                this._createMesh();
+                // update() wordt automatisch na init() aangeroepen
             },
             update() {
                 this._createMesh();
@@ -52,9 +52,10 @@ class ButtonFactory {
                 const geometry = new THREE.ShapeGeometry(shape);
                 const material = new THREE.MeshBasicMaterial({
                     color: new THREE.Color(color),
-                    side: THREE.DoubleSide,
-                    transparent: opacity < 1,
-                    opacity: opacity
+                    side: THREE.FrontSide,
+                    transparent: true,
+                    opacity: opacity,
+                    depthWrite: false
                 });
 
                 if (this.mesh) {
