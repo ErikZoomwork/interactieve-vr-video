@@ -62,10 +62,9 @@ async function startExperience() {
     }
 }
 
-/** Begin met afspelen van de startvideo */
+/** Begin met afspelen — toon eerst lobby */
 function _beginPlayback() {
-    const startVideoId = VR_CONFIG.settings.startVideo;
-    window.videoManager.playVideo(startVideoId);
+    window.buttonFactory.showLobby();
 }
 
 // ===== Keyboard shortcuts (voor testen op desktop) =====

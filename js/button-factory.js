@@ -144,6 +144,79 @@ class ButtonFactory {
         this._timedButtons = [];
     }
 
+    /** Toon lobby-scherm met Start-knop */
+    showLobby() {
+        this.clearButtons();
+
+        const group = document.createElement("a-entity");
+        group.setAttribute("position", `0 ${ButtonFactory.EYE_HEIGHT} -3`);
+
+        // Titel
+        const title = document.createElement("a-text");
+        title.setAttribute("value", "Interactieve VR Ervaring");
+        title.setAttribute("align", "center");
+        title.setAttribute("color", "#FFFFFF");
+        title.setAttribute("width", 4);
+        title.setAttribute("position", "0 0.6 0");
+        title.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
+        group.appendChild(title);
+
+        // GGD-stijl Start button
+        const w = 2.5, h = 0.6;
+        const cornerRadius = h * 0.3;
+        const off = 0.04;
+
+        const shadow = document.createElement("a-entity");
+        shadow.setAttribute("card-shape", `width: ${w}; height: ${h}; radius: ${cornerRadius}; color: #000000; opacity: 0.2`);
+        shadow.setAttribute("position", `${off * 1.5} ${-off * 1.5} -0.02`);
+        group.appendChild(shadow);
+
+        const accent = document.createElement("a-entity");
+        accent.setAttribute("card-shape", `width: ${w}; height: ${h}; radius: ${cornerRadius}; color: #b71c72; opacity: 1`);
+        accent.setAttribute("position", `${off} ${-off} -0.01`);
+        group.appendChild(accent);
+
+        const panel = document.createElement("a-entity");
+        panel.setAttribute("card-shape", `width: ${w}; height: ${h}; radius: ${cornerRadius}; color: #FFFFFF; opacity: 1`);
+        panel.setAttribute("class", "clickable");
+        group.appendChild(panel);
+
+        const btnText = document.createElement("a-text");
+        btnText.setAttribute("value", "▶  Start");
+        btnText.setAttribute("align", "center");
+        btnText.setAttribute("color", "#333333");
+        btnText.setAttribute("width", 3);
+        btnText.setAttribute("position", "0 0 0.01");
+        btnText.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
+        group.appendChild(btnText);
+
+        // Hover
+        panel.addEventListener("mouseenter", () => {
+            group.setAttribute("scale", "1.05 1.05 1.05");
+        });
+        panel.addEventListener("mouseleave", () => {
+            group.setAttribute("scale", "1 1 1");
+        });
+
+        // Klik → start de eerste video
+        panel.addEventListener("click", () => {
+            const startVideoId = VR_CONFIG.settings.startVideo;
+            window.videoManager.playVideo(startVideoId);
+        });
+
+        // Entrance animatie
+        group.setAttribute("animation__appear", {
+            property: "scale",
+            from: "0 0 0",
+            to: "1 1 1",
+            dur: 600,
+            easing: "easeOutBack",
+            delay: 500
+        });
+
+        this.buttonContainer.appendChild(group);
+    }
+
     /** Toon buttons voor een specifieke video */
     showButtonsForVideo(videoId) {
         this.clearButtons();
