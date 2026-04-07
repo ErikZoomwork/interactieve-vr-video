@@ -62,7 +62,8 @@
           }
         }
       ],
-      "sourceType": "url"
+      "sourceType": "url",
+      "projection": "360"
     },
     "video-2": {
       "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=b8d4a0d718b0a85b42676de199aaa88bebaf43d692bce9dcb2e568dbe2b43b45",
