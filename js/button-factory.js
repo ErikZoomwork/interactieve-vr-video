@@ -58,17 +58,16 @@ class ButtonFactory {
                 });
 
                 if (this.mesh) {
-                    this.el.object3D.remove(this.mesh);
                     this.mesh.geometry.dispose();
                     this.mesh.material.dispose();
                 }
                 this.mesh = new THREE.Mesh(geometry, material);
-                this.el.object3D.add(this.mesh);
+                this.el.setObject3D('mesh', this.mesh);
                 this.el.classList.add('clickable');
             },
             remove() {
                 if (this.mesh) {
-                    this.el.object3D.remove(this.mesh);
+                    this.el.removeObject3D('mesh');
                     this.mesh.geometry.dispose();
                     this.mesh.material.dispose();
                 }
@@ -178,19 +177,8 @@ class ButtonFactory {
             panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
             panel.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
         } else {
-            // Visuele afgeronde rechthoek
+            // Afgeronde rechthoek (mesh wordt via setObject3D geregistreerd voor raycasting)
             panel.setAttribute("rounded-rect", `width: ${style.width}; height: ${style.height}; radius: ${style.borderRadius}; color: ${style.backgroundColor}; opacity: ${style.opacity}`);
-            // Onzichtbare plane als raycast-target, iets naar voren om z-fighting te voorkomen
-            const hitPlane = document.createElement("a-plane");
-            hitPlane.setAttribute("width", style.width);
-            hitPlane.setAttribute("height", style.height);
-            hitPlane.setAttribute("position", "0 0 0.005");
-            hitPlane.setAttribute("material", "shader: flat; opacity: 0; transparent: true; side: double");
-            hitPlane.setAttribute("class", "clickable");
-            hitPlane.setAttribute("data-goto", config.goTo || "");
-            this._addHoverEffects(hitPlane, style, panel);
-            this._addClickHandler(hitPlane, config);
-            panel.appendChild(hitPlane);
         }
 
         panel.setAttribute("class", "clickable");
