@@ -53,9 +53,9 @@ class ButtonFactory {
                 const material = new THREE.MeshBasicMaterial({
                     color: new THREE.Color(color),
                     side: THREE.FrontSide,
-                    transparent: true,
+                    transparent: opacity < 1,
                     opacity: opacity,
-                    depthWrite: false
+                    depthWrite: true
                 });
 
                 if (this.mesh) {
@@ -196,7 +196,7 @@ class ButtonFactory {
             text.setAttribute("align", "center");
             text.setAttribute("color", style.textColor);
             text.setAttribute("width", style.fontSize);
-            text.setAttribute("position", "0 0 0.01");
+            text.setAttribute("position", "0 0 0.05");
             text.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
             group.appendChild(text);
         }
@@ -207,7 +207,7 @@ class ButtonFactory {
             icon.setAttribute("src", style.icon);
             icon.setAttribute("width", style.height * 0.6);
             icon.setAttribute("height", style.height * 0.6);
-            icon.setAttribute("position", `${-(style.width / 2) + 0.3} 0 0.01`);
+            icon.setAttribute("position", `${-(style.width / 2) + 0.3} 0 0.05`);
             group.appendChild(icon);
         }
 
