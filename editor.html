@@ -136,9 +136,16 @@
             <button class="btn btn-small btn-ghost" onclick="Editor.closeButtonEditor()">✕</button>
         </div>
         <div class="panel-content" id="button-editor-content">
-            <!-- Tekst & Navigatie -->
+            <!-- Preset & Tekst & Navigatie -->
             <fieldset>
-                <legend>Tekst & Navigatie</legend>
+                <legend>Preset & Navigatie</legend>
+                <label>
+                    <span>Stijl preset:</span>
+                    <select id="btn-edit-preset" onchange="Editor.applyPreset(this.value)">
+                        <option value="default">Standaard</option>
+                        <option value="ggd">GGD (wit + roze accent)</option>
+                    </select>
+                </label>
                 <label>
                     <span>Tekst op knop:</span>
                     <input type="text" id="btn-edit-text" placeholder="Klik hier!" oninput="Editor.updateButton('text', this.value)" />

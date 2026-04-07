@@ -191,13 +191,21 @@ const Editor = {
         list.innerHTML = buttons.map((btn, index) => {
             const style = Object.assign({}, this.config.defaultButtonStyle, btn.style || {});
             const isSelected = this.selectedButtonIndex === index;
-            const bgStyle = style.backgroundImage
-                ? `background-image: url('${this._escapeHtml(style.backgroundImage)}'); background-size: cover;`
-                : `background-color: ${style.backgroundColor};`;
+            const preset = btn.preset || "default";
+
+            let previewStyle;
+            if (preset === 'ggd') {
+                previewStyle = `background-color: #FFFFFF; color: #333; border: 2px solid #b71c72; box-shadow: 2px 2px 0 #b71c72; border-radius: 3px 3px 3px 8px;`;
+            } else {
+                const bgStyle = style.backgroundImage
+                    ? `background-image: url('${this._escapeHtml(style.backgroundImage)}'); background-size: cover;`
+                    : `background-color: ${style.backgroundColor};`;
+                previewStyle = `${bgStyle} color: ${style.textColor}; opacity: ${style.opacity};`;
+            }
 
             return `
                 <div class="button-item ${isSelected ? 'selected' : ''}" onclick="Editor.selectButton(${index})">
-                    <div class="button-item-preview" style="${bgStyle} color: ${style.textColor}; opacity: ${style.opacity};">
+                    <div class="button-item-preview" style="${previewStyle}">
                         ${this._escapeHtml(btn.text || '(geen tekst)')}
                     </div>
                     <div class="button-item-info">
@@ -227,6 +235,9 @@ const Editor = {
         const style = Object.assign({}, this.config.defaultButtonStyle, btn.style || {});
 
         document.getElementById("panel-button-editor").style.display = "flex";
+
+        // Preset
+        document.getElementById("btn-edit-preset").value = btn.preset || "default";
 
         // Vul velden in
         document.getElementById("btn-edit-text").value = btn.text || "";
@@ -287,22 +298,38 @@ const Editor = {
 
     _updateButtonPreview(btn, style) {
         const el = document.getElementById("preview-btn");
-        const bgParts = [];
-        if (style.backgroundImage) {
-            bgParts.push(`background-image: url('${style.backgroundImage}')`);
-            bgParts.push("background-size: cover");
+        const preset = btn.preset || "default";
+
+        if (preset === "ggd") {
+            el.style.cssText = `
+                background-color: #FFFFFF;
+                color: #333333;
+                opacity: 1;
+                width: ${Math.min(style.width * 60, 280)}px;
+                height: ${style.height * 60}px;
+                font-size: ${style.fontSize * 4}px;
+                border: 2px solid #b71c72;
+                box-shadow: 3px 3px 0 #b71c72, 5px 5px 8px rgba(0,0,0,0.2);
+                border-radius: 4px 4px 4px 12px;
+            `;
         } else {
-            bgParts.push(`background-color: ${style.backgroundColor}`);
+            const bgParts = [];
+            if (style.backgroundImage) {
+                bgParts.push(`background-image: url('${style.backgroundImage}')`);
+                bgParts.push("background-size: cover");
+            } else {
+                bgParts.push(`background-color: ${style.backgroundColor}`);
+            }
+            el.style.cssText = `
+                ${bgParts.join('; ')};
+                color: ${style.textColor};
+                opacity: ${style.opacity};
+                width: ${Math.min(style.width * 60, 280)}px;
+                height: ${style.height * 60}px;
+                font-size: ${style.fontSize * 4}px;
+                border-radius: ${style.borderRadius * 60}px;
+            `;
         }
-        el.style.cssText = `
-            ${bgParts.join('; ')};
-            color: ${style.textColor};
-            opacity: ${style.opacity};
-            width: ${Math.min(style.width * 60, 280)}px;
-            height: ${style.height * 60}px;
-            font-size: ${style.fontSize * 4}px;
-            border-radius: ${style.borderRadius * 60}px;
-        `;
         el.textContent = btn.text || "(geen tekst)";
     },
 
@@ -443,18 +470,9 @@ const Editor = {
     },
 
     // ===== ACTIES: BUTTONS =====
-    addButton() {
-        if (!this.selectedVideoId) return;
-        const video = this.config.videos[this.selectedVideoId];
-        if (!video.buttons) video.buttons = [];
-
-        const newBtn = {
-            id: "btn-" + Date.now(),
-            text: "Nieuwe knop",
-            goTo: "",
-            position: { x: 0, y: 0, z: -4 },
-            rotation: { x: 0, y: 0, z: 0 },
-            timing: {},
+    // ===== PRESETS =====
+    _presets: {
+        default: {
             style: {
                 backgroundColor: "#2196F3",
                 textColor: "#FFFFFF",
@@ -465,6 +483,46 @@ const Editor = {
                 opacity: 0.95,
                 hoverColor: "#1565C0",
             }
+        },
+        ggd: {
+            style: {
+                backgroundColor: "#FFFFFF",
+                textColor: "#333333",
+                width: 2.5,
+                height: 0.6,
+                borderRadius: 0.08,
+                fontSize: 3,
+                opacity: 1,
+                hoverColor: "#F5F5F5",
+            }
+        }
+    },
+
+    applyPreset(presetName) {
+        if (this.selectedButtonIndex === null) return;
+        const btn = this.config.videos[this.selectedVideoId].buttons[this.selectedButtonIndex];
+        const preset = this._presets[presetName];
+        if (!preset) return;
+        btn.preset = presetName;
+        btn.style = JSON.parse(JSON.stringify(preset.style));
+        this.render();
+        this._renderButtonEditor();
+    },
+
+    addButton() {
+        if (!this.selectedVideoId) return;
+        const video = this.config.videos[this.selectedVideoId];
+        if (!video.buttons) video.buttons = [];
+
+        const newBtn = {
+            id: "btn-" + Date.now(),
+            text: "Nieuwe knop",
+            goTo: "",
+            preset: "ggd",
+            position: { x: 0, y: 0, z: -4 },
+            rotation: { x: 0, y: 0, z: 0 },
+            timing: {},
+            style: JSON.parse(JSON.stringify(this._presets.ggd.style))
         };
 
         video.buttons.push(newBtn);
@@ -1165,17 +1223,25 @@ const Editor = {
             const style = Object.assign({}, this.config.defaultButtonStyle, btn.style || {});
             const size = this._buttonSizeOnPreview(btn, style, overlayRect);
             const isSelected = this.selectedButtonIndex === index;
+            const preset = btn.preset || "default";
 
-            const bgStyle = style.backgroundImage
-                ? `background-image: url('${this._escapeHtml(style.backgroundImage)}'); background-size: cover;`
-                : `background-color: ${style.backgroundColor};`;
+            let btnStyle, extraClass = '';
+            if (preset === 'ggd') {
+                btnStyle = `background-color: #FFFFFF; color: #333333; opacity: 1; border: 2px solid #b71c72; box-shadow: 3px 3px 0 #b71c72, 5px 5px 8px rgba(0,0,0,0.2); border-radius: 4px 4px 4px 12px;`;
+                extraClass = 'preset-ggd';
+            } else {
+                const bgStyle = style.backgroundImage
+                    ? `background-image: url('${this._escapeHtml(style.backgroundImage)}'); background-size: cover;`
+                    : `background-color: ${style.backgroundColor};`;
+                btnStyle = `${bgStyle} color: ${style.textColor}; opacity: ${style.opacity};`;
+            }
 
             html += `
-                <div class="preview-overlay-btn ${isSelected ? 'selected' : ''}"
+                <div class="preview-overlay-btn ${isSelected ? 'selected' : ''} ${extraClass}"
                      data-btn-index="${index}"
                      style="left: ${pos.x}%; top: ${pos.y}%;
                             width: ${size.width}px; height: ${size.height}px;
-                            ${bgStyle} color: ${style.textColor}; opacity: ${style.opacity};"
+                            ${btnStyle}"
                      onmousedown="Editor._startOverlayDrag(event, ${index})"
                      onclick="Editor.selectButton(${index})">
                     ${this._escapeHtml(btn.text || '')}

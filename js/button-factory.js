@@ -211,16 +211,22 @@ class ButtonFactory {
     /** Ooghoogte offset — y=0 in config = ooghoogte in VR */
     static EYE_HEIGHT = 1.6;
 
-    /** Maak een enkele button entity (card prefab) */
+    /** Maak een enkele button entity */
     _createButton(config) {
-        const style = this._mergeStyle(config.style);
+        const preset = config.preset || "default";
+        if (preset === "ggd") {
+            return this._createGGDButton(config);
+        }
+        return this._createDefaultButton(config);
+    }
 
-        // Hoofd-entity (groep)
+    /** GGD preset: wit vlak + #b71c72 accent + drop shadow, linksonder afgerond */
+    _createGGDButton(config) {
+        const style = this._mergeStyle(config.style);
         const group = document.createElement("a-entity");
         group.setAttribute("id", config.id);
         const yWorld = config.position.y + ButtonFactory.EYE_HEIGHT;
         group.setAttribute("position", `${config.position.x} ${yWorld} ${config.position.z}`);
-
         const rot = config.rotation || { x: 0, y: 0, z: 0 };
         group.setAttribute("rotation", `${rot.x} ${rot.y} ${rot.z}`);
 
@@ -269,6 +275,52 @@ class ButtonFactory {
         }
 
         // Entrance animatie
+        group.setAttribute("animation__appear", {
+            property: "scale",
+            from: "0 0 0",
+            to: "1 1 1",
+            dur: 400,
+            easing: "easeOutBack",
+            delay: Math.random() * 300
+        });
+
+        return group;
+    }
+
+    /** Standaard preset: gekleurde afgeronde rechthoek */
+    _createDefaultButton(config) {
+        const style = this._mergeStyle(config.style);
+        const group = document.createElement("a-entity");
+        group.setAttribute("id", config.id);
+        const yWorld = config.position.y + ButtonFactory.EYE_HEIGHT;
+        group.setAttribute("position", `${config.position.x} ${yWorld} ${config.position.z}`);
+        const rot = config.rotation || { x: 0, y: 0, z: 0 };
+        group.setAttribute("rotation", `${rot.x} ${rot.y} ${rot.z}`);
+
+        const panel = document.createElement("a-entity");
+        if (style.backgroundImage) {
+            panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
+            panel.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
+        } else {
+            panel.setAttribute("rounded-rect", `width: ${style.width}; height: ${style.height}; radius: ${style.borderRadius}; color: ${style.backgroundColor}; opacity: ${style.opacity}`);
+        }
+        panel.setAttribute("class", "clickable");
+        panel.setAttribute("data-goto", config.goTo || "");
+        this._addHoverEffects(panel, style);
+        this._addClickHandler(panel, config);
+        group.appendChild(panel);
+
+        if (config.text) {
+            const text = document.createElement("a-text");
+            text.setAttribute("value", config.text);
+            text.setAttribute("align", "center");
+            text.setAttribute("color", style.textColor);
+            text.setAttribute("width", style.fontSize);
+            text.setAttribute("position", "0 0 0.05");
+            text.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
+            group.appendChild(text);
+        }
+
         group.setAttribute("animation__appear", {
             property: "scale",
             from: "0 0 0",
