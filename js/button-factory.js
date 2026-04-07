@@ -178,11 +178,19 @@ class ButtonFactory {
             panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
             panel.setAttribute("material", `src: ${style.backgroundImage}; opacity: ${style.opacity}; shader: flat; side: double`);
         } else {
-            // Onzichtbare plane als raycast-target (A-Frame raycaster detecteert standaard geometry)
-            panel.setAttribute("geometry", `primitive: plane; width: ${style.width}; height: ${style.height}`);
-            panel.setAttribute("material", `shader: flat; opacity: 0; transparent: true; side: double`);
             // Visuele afgeronde rechthoek
             panel.setAttribute("rounded-rect", `width: ${style.width}; height: ${style.height}; radius: ${style.borderRadius}; color: ${style.backgroundColor}; opacity: ${style.opacity}`);
+            // Onzichtbare plane als raycast-target, iets naar voren om z-fighting te voorkomen
+            const hitPlane = document.createElement("a-plane");
+            hitPlane.setAttribute("width", style.width);
+            hitPlane.setAttribute("height", style.height);
+            hitPlane.setAttribute("position", "0 0 0.005");
+            hitPlane.setAttribute("material", "shader: flat; opacity: 0; transparent: true; side: double");
+            hitPlane.setAttribute("class", "clickable");
+            hitPlane.setAttribute("data-goto", config.goTo || "");
+            this._addHoverEffects(hitPlane, style, panel);
+            this._addClickHandler(hitPlane, config);
+            panel.appendChild(hitPlane);
         }
 
         panel.setAttribute("class", "clickable");
@@ -228,23 +236,24 @@ class ButtonFactory {
     }
 
     /** Voeg hover-effecten toe aan een element */
-    _addHoverEffects(element, style) {
+    _addHoverEffects(element, style, visualTarget) {
+        const target = visualTarget || element;
         element.addEventListener("mouseenter", () => {
-            if (element.hasAttribute("rounded-rect")) {
-                element.setAttribute("rounded-rect", "color", style.hoverColor);
+            if (target.hasAttribute("rounded-rect")) {
+                target.setAttribute("rounded-rect", "color", style.hoverColor);
             } else {
-                element.setAttribute("material", "color", style.hoverColor);
+                target.setAttribute("material", "color", style.hoverColor);
             }
-            element.setAttribute("scale", "1.05 1.05 1.05");
+            target.setAttribute("scale", "1.05 1.05 1.05");
         });
 
         element.addEventListener("mouseleave", () => {
-            if (element.hasAttribute("rounded-rect")) {
-                element.setAttribute("rounded-rect", "color", style.backgroundColor);
+            if (target.hasAttribute("rounded-rect")) {
+                target.setAttribute("rounded-rect", "color", style.backgroundColor);
             } else {
-                element.setAttribute("material", "color", style.backgroundColor);
+                target.setAttribute("material", "color", style.backgroundColor);
             }
-            element.setAttribute("scale", "1 1 1");
+            target.setAttribute("scale", "1 1 1");
         });
     }
 
