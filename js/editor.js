@@ -45,6 +45,7 @@ const Editor = {
                 gazeTimeout: 2000,
                 showCursorAlways: true,
                 loopVideos: true,
+                inputMethod: "all",
             },
             videos: {},
             defaultButtonStyle: {
@@ -69,6 +70,7 @@ const Editor = {
     render() {
         this._renderVideoList();
         this._renderStartVideoSelect();
+        this._renderSettings();
         if (this.selectedVideoId && this.config.videos[this.selectedVideoId]) {
             this._renderVideoEditor();
         } else {
@@ -76,6 +78,42 @@ const Editor = {
             document.getElementById("empty-state").style.display = "flex";
         }
         this.save();
+    },
+
+    // ===== INSTELLINGEN PANEEL =====
+    toggleSettings() {
+        const panel = document.getElementById("settings-panel");
+        const isVisible = panel.style.display !== "none";
+        panel.style.display = isVisible ? "none" : "block";
+        if (!isVisible) this._renderSettings();
+    },
+
+    _renderSettings() {
+        const s = this.config.settings;
+
+        const inputMethod = document.getElementById("setting-input-method");
+        if (inputMethod) inputMethod.value = s.inputMethod || "all";
+
+        const gazeTimeout = document.getElementById("setting-gaze-timeout");
+        if (gazeTimeout) gazeTimeout.value = s.gazeTimeout || 2000;
+
+        const showCursor = document.getElementById("setting-show-cursor");
+        if (showCursor) showCursor.checked = s.showCursorAlways !== false;
+
+        const fadeTransition = document.getElementById("setting-fade-transition");
+        if (fadeTransition) fadeTransition.value = s.fadeTransitionMs || 800;
+
+        const loopVideos = document.getElementById("setting-loop-videos");
+        if (loopVideos) loopVideos.checked = s.loopVideos !== false;
+
+        // Startvideo select in settings paneel
+        const startSelect = document.getElementById("setting-start-video-global");
+        if (startSelect) {
+            const keys = Object.keys(this.config.videos);
+            startSelect.innerHTML = keys.length === 0
+                ? '<option value="">-- geen video\'s --</option>'
+                : keys.map(id => `<option value="${id}" ${s.startVideo === id ? 'selected' : ''}>${this._escapeHtml(id)}</option>`).join('');
+        }
     },
 
     // ===== VIDEO LIJST (links paneel) =====

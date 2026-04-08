@@ -49,6 +49,9 @@ async function startExperience() {
     startScreen.style.display = "none";
     vrScene.style.display = "block";
 
+    // Pas instellingen toe op de scene
+    _applySettings();
+
     // Initialiseer managers
     window.videoManager.init();
     window.buttonFactory.init();
@@ -60,6 +63,45 @@ async function startExperience() {
     } else {
         scene.addEventListener("loaded", _beginPlayback);
     }
+}
+
+/** Pas project-instellingen toe op de A-Frame scene */
+function _applySettings() {
+    const s = VR_CONFIG.settings;
+    const inputMethod = s.inputMethod || "all";
+
+    // Gaze cursor
+    const gazeCursor = document.getElementById("gaze-cursor");
+    const gazeEnabled = inputMethod === "all" || inputMethod.includes("gaze");
+    if (gazeCursor) {
+        if (gazeEnabled) {
+            const timeout = s.gazeTimeout || 2000;
+            gazeCursor.setAttribute("cursor", `fuse: true; fuseTimeout: ${timeout}`);
+            gazeCursor.setAttribute("visible", s.showCursorAlways !== false);
+            // Update fusing-animatie duur zodat die overeenkomt met gazeTimeout
+            gazeCursor.setAttribute("animation__fusing", `property: scale; startEvents: fusing; easing: easeInCubic; dur: ${timeout}; from: 1 1 1; to: 0.1 0.1 0.1`);
+        } else {
+            gazeCursor.setAttribute("cursor", "fuse: false");
+            gazeCursor.setAttribute("raycaster", "objects: .nothing");
+            gazeCursor.setAttribute("visible", false);
+        }
+    }
+
+    // Controllers (laser-controls)
+    const leftHand = document.getElementById("left-hand");
+    const rightHand = document.getElementById("right-hand");
+    const controllersEnabled = inputMethod === "all" || inputMethod.includes("controllers");
+    if (leftHand) leftHand.setAttribute("raycaster", controllersEnabled ? "objects: .clickable; far: 20" : "objects: .nothing");
+    if (rightHand) rightHand.setAttribute("raycaster", controllersEnabled ? "objects: .clickable; far: 20" : "objects: .nothing");
+
+    // Hand tracking
+    const leftHandTracking = document.getElementById("left-hand-tracking");
+    const rightHandTracking = document.getElementById("right-hand-tracking");
+    const handsEnabled = inputMethod === "all" || inputMethod.includes("hands");
+    if (leftHandTracking) leftHandTracking.setAttribute("raycaster", handsEnabled ? "objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5" : "objects: .nothing");
+    if (rightHandTracking) rightHandTracking.setAttribute("raycaster", handsEnabled ? "objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5" : "objects: .nothing");
+
+    console.log(`⚙️ Instellingen toegepast: invoer=${inputMethod}, gaze=${gazeEnabled ? s.gazeTimeout + 'ms' : 'uit'}, fade=${s.fadeTransitionMs}ms`);
 }
 
 /** Begin met afspelen — toon eerst lobby */
