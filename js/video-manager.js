@@ -140,14 +140,21 @@ class VideoManager {
 
     /** Start de timing-updates voor button-timing */
     _startTimingUpdates(videoEl) {
-        // Stop vorige interval
+        // Stop vorige interval en listener
         if (this._timingInterval) {
             clearInterval(this._timingInterval);
+            this._timingInterval = null;
+        }
+        if (this._endedHandler && this._endedVideo) {
+            this._endedVideo.removeEventListener("ended", this._endedHandler);
         }
 
         let videoEnded = false;
 
-        videoEl.addEventListener("ended", () => {
+        this._endedVideo = videoEl;
+        this._endedHandler = () => {
+            // Alleen verwerken als dit nog steeds de actieve video is
+            if (this._endedVideo !== videoEl) return;
             videoEnded = true;
             if (window.buttonFactory) {
                 window.buttonFactory.updateTiming(
@@ -156,11 +163,18 @@ class VideoManager {
                     true
                 );
             }
-        }, { once: true });
+        };
+
+        videoEl.addEventListener("ended", this._endedHandler, { once: true });
 
         // Check timing elke 250ms
         this._timingInterval = setInterval(() => {
             if (!window.buttonFactory) return;
+            // Stop als deze video niet meer actief is
+            if (this._endedVideo !== videoEl) {
+                clearInterval(this._timingInterval);
+                return;
+            }
             if (videoEl.paused && !videoEnded) return;
             window.buttonFactory.updateTiming(
                 videoEl.currentTime,
