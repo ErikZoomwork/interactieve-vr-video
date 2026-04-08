@@ -237,6 +237,9 @@ class ButtonFactory {
                 // Start verborgen, timing bepaalt wanneer het verschijnt
                 buttonEntity.setAttribute("visible", false);
                 buttonEntity.setAttribute("scale", "0 0 0");
+                // Verwijder clickable class zodat raycaster onzichtbare buttons negeert
+                const clickable = buttonEntity.querySelector('.clickable');
+                if (clickable) clickable.classList.remove('clickable');
                 this._timedButtons.push({ entity: buttonEntity, timing, shown: false });
             }
 
@@ -262,6 +265,9 @@ class ButtonFactory {
 
             if (shouldBeVisible && !item.shown) {
                 item.entity.setAttribute("visible", true);
+                // Herstel clickable class zodat raycaster de button weer detecteert
+                const clickable = item.entity.querySelector('[data-goto]');
+                if (clickable) clickable.classList.add('clickable');
                 item.entity.setAttribute("animation__timein", {
                     property: "scale",
                     from: "0 0 0",
@@ -271,6 +277,9 @@ class ButtonFactory {
                 });
                 item.shown = true;
             } else if (!shouldBeVisible && item.shown) {
+                // Verwijder clickable class zodat raycaster verborgen buttons negeert
+                const clickable = item.entity.querySelector('.clickable');
+                if (clickable) clickable.classList.remove('clickable');
                 item.entity.setAttribute("animation__timeout", {
                     property: "scale",
                     to: "0 0 0",
