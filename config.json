@@ -54,7 +54,7 @@
           "style": {
             "backgroundColor": "#FFFFFF",
             "textColor": "#333333",
-            "width": 2.5,
+            "width": 1,
             "height": 0.6,
             "borderRadius": 0.08,
             "fontSize": 3,
