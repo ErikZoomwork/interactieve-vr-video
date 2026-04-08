@@ -4,7 +4,7 @@
     "fadeTransitionMs": 800,
     "gazeTimeout": 2000,
     "showCursorAlways": true,
-    "loopVideos": true,
+    "loopVideos": false,
     "inputMethod": "controllers"
   },
   "videos": {
