@@ -35,7 +35,10 @@
             "opacity": 1,
             "hoverColor": "#F5F5F5"
           },
-          "preset": "ggd"
+          "preset": "ggd",
+          "timing": {
+            "showAt": 69
+          }
         },
         {
           "id": "btn-1775561755467",
@@ -61,7 +64,10 @@
             "opacity": 1,
             "hoverColor": "#ffd7d7"
           },
-          "preset": "ggd"
+          "preset": "ggd",
+          "timing": {
+            "showAt": 69
+          }
         }
       ],
       "sourceType": "url",
@@ -85,7 +91,9 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 53
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
@@ -112,7 +120,9 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 53
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
@@ -146,7 +156,9 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 64
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
@@ -173,7 +185,9 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 64
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
@@ -207,7 +221,9 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 93
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
@@ -234,7 +250,10 @@
             "y": 0,
             "z": 0
           },
-          "timing": {},
+          "timing": {
+            "showAt": 93,
+            "showOnEnd": false
+          },
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
