@@ -206,10 +206,10 @@ const Editor = {
             return `
                 <div class="button-item ${isSelected ? 'selected' : ''}" onclick="Editor.selectButton(${index})">
                     <div class="button-item-preview" style="${previewStyle}">
-                        ${this._escapeHtml(btn.text || '(geen tekst)')}
+                        ${this._escapeHtml(btn.text || '(geen tekst)').replace(/\n/g, '<br>')}
                     </div>
                     <div class="button-item-info">
-                        <div class="button-item-title">${this._escapeHtml(btn.text || '(geen tekst)')}</div>
+                        <div class="button-item-title">${this._escapeHtml(btn.text || '(geen tekst)').replace(/\n/g, ' ')}</div>
                         <div class="button-item-meta">
                             → ${this._escapeHtml(btn.goTo || '?')} · Positie: ${btn.position?.x ?? 0}, ${btn.position?.y ?? 1}, ${btn.position?.z ?? -4}
                             ${btn.timing && (btn.timing.showAt || btn.timing.hideAt || btn.timing.showOnEnd) ? ` · ⏱ ${btn.timing.showOnEnd ? 'na einde' : (btn.timing.showAt ? btn.timing.showAt + 's' : '0s')}${btn.timing.hideAt ? ' - ' + btn.timing.hideAt + 's' : ''}` : ''}
@@ -308,6 +308,8 @@ const Editor = {
                 width: ${Math.min(style.width * 60, 280)}px;
                 height: ${style.height * 60}px;
                 font-size: ${style.fontSize * 4}px;
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 600;
                 border: 2px solid #b71c72;
                 box-shadow: 3px 3px 0 #b71c72, 5px 5px 8px rgba(0,0,0,0.2);
                 border-radius: 4px 4px 4px 12px;
@@ -330,7 +332,7 @@ const Editor = {
                 border-radius: ${style.borderRadius * 60}px;
             `;
         }
-        el.textContent = btn.text || "(geen tekst)";
+        el.innerHTML = this._escapeHtml(btn.text || "(geen tekst)").replace(/\n/g, '<br>');
     },
 
     _populateGoToSelects() {

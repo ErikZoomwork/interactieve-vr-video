@@ -2,6 +2,12 @@
    EDITOR.CSS — Styling voor de visuele VR Video Editor
    ============================================================ */
 
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: 600;
+    src: url('../fonts/OpenSans-SemiBold.ttf') format('truetype');
+}
+
 :root {
     --bg-primary: #0f1117;
     --bg-secondary: #1a1d27;

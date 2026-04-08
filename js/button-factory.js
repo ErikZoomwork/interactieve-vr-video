@@ -182,12 +182,16 @@ class ButtonFactory {
         group.appendChild(panel);
 
         const btnText = document.createElement("a-text");
-        btnText.setAttribute("value", "▶  Start");
-        btnText.setAttribute("align", "center");
-        btnText.setAttribute("color", "#333333");
-        btnText.setAttribute("width", 3);
+        btnText.setAttribute("troika-text", {
+            value: "▶  Start",
+            font: 'fonts/OpenSans-SemiBold.ttf',
+            fontSize: 0.065,
+            color: '#333333',
+            anchorX: 'center',
+            anchorY: 'middle',
+            textAlign: 'center'
+        });
         btnText.setAttribute("position", "0 0 0.01");
-        btnText.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
         group.appendChild(btnText);
 
         // Hover
@@ -335,15 +339,20 @@ class ButtonFactory {
             group.setAttribute("scale", "1 1 1");
         });
 
-        // Tekst label
+        // Tekst label (troika-text voor OpenSans-SemiBold + newline-ondersteuning)
         if (config.text) {
-            const text = document.createElement("a-text");
-            text.setAttribute("value", config.text);
-            text.setAttribute("align", "center");
-            text.setAttribute("color", "#333333");
-            text.setAttribute("width", style.fontSize || 3);
+            const text = document.createElement("a-entity");
+            text.setAttribute("troika-text", {
+                value: config.text,
+                font: 'fonts/OpenSans-SemiBold.ttf',
+                fontSize: 0.055,
+                color: '#333333',
+                anchorX: 'center',
+                anchorY: 'middle',
+                textAlign: 'center',
+                maxWidth: w - 0.3
+            });
             text.setAttribute("position", "0 0 0.01");
-            text.setAttribute("font", "https://cdn.aframe.io/fonts/Roboto-msdf.json");
             group.appendChild(text);
         }
 
