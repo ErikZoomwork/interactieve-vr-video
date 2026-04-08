@@ -13,7 +13,7 @@
       "buttons": [
         {
           "id": "btn-1775561688939",
-          "text": "Wat maken die \npaar centen nou uit.",
+          "text": "Dat had hij ook even kunnen vragen.",
           "goTo": "Scene_03",
           "position": {
             "x": -1,
@@ -39,7 +39,7 @@
         },
         {
           "id": "btn-1775561755467",
-          "text": "Dat had hij ook even kunnen vragen.",
+          "text": "Wat maken die paar centen nou uit.",
           "goTo": "Scene_03",
           "position": {
             "x": 1,
@@ -73,10 +73,10 @@
       "buttons": [
         {
           "id": "btn-1775561881882",
-          "text": "Nieuwe knop",
+          "text": "Ben ik toch vergeten \nhet geld neer te leggen?",
           "goTo": "Scene_04",
           "position": {
-            "x": 3,
+            "x": 1,
             "y": 0,
             "z": -4
           },
@@ -89,10 +89,10 @@
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
+            "width": 1,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -100,10 +100,10 @@
         },
         {
           "id": "btn-1775561889625",
-          "text": "Nieuwe knop (kopie)",
+          "text": "Zou Rein weer ergens \ngeld voor hebben gepakt?",
           "goTo": "Scene_04",
           "position": {
-            "x": -2.5,
+            "x": -1,
             "y": 0,
             "z": -4
           },
@@ -116,10 +116,10 @@
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
+            "width": 1,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -134,10 +134,10 @@
       "buttons": [
         {
           "id": "btn-1775561908849",
-          "text": "Nieuwe knop",
+          "text": "Ik weet het echt zeker,\nRein zou toch niet liegen?",
           "goTo": "Scene_05",
           "position": {
-            "x": -3,
+            "x": -1,
             "y": 0,
             "z": -4
           },
@@ -150,10 +150,10 @@
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
+            "width": 1,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -161,10 +161,10 @@
         },
         {
           "id": "btn-1775561910090",
-          "text": "Nieuwe knop",
+          "text": "Ik word wel steeds vergeetachtiger.\nWaarschijnlijk heeft hij gelijk.",
           "goTo": "Scene_05",
           "position": {
-            "x": 3,
+            "x": 1,
             "y": 0,
             "z": -4
           },
@@ -177,10 +177,10 @@
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
+            "width": 1,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -195,10 +195,10 @@
       "buttons": [
         {
           "id": "btn-1775561940938",
-          "text": "Nieuwe knop",
+          "text": "Misschien moet ik \nleren internetbankieren.",
           "goTo": "Scene_01",
           "position": {
-            "x": -3,
+            "x": -1,
             "y": 0,
             "z": -4
           },
@@ -211,10 +211,10 @@
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
+            "width": 1,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -222,10 +222,10 @@
         },
         {
           "id": "btn-1775561943858",
-          "text": "Nieuwe knop (kopie)",
+          "text": "Daar zou toch niet dat nieuwe\nhorloge vandaan komen.",
           "goTo": "Scene_01",
           "position": {
-            "x": 3,
+            "x": 1,
             "y": 0,
             "z": -4
           },
@@ -238,10 +238,10 @@
           "style": {
             "backgroundColor": "#2196F3",
             "textColor": "#FFFFFF",
-            "width": 2.5,
-            "height": 0.6,
+            "width": 1,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
