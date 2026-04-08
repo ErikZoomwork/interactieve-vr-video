@@ -55,11 +55,11 @@
             "backgroundColor": "#FFFFFF",
             "textColor": "#333333",
             "width": 1,
-            "height": 0.6,
+            "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 3,
+            "fontSize": 4,
             "opacity": 1,
-            "hoverColor": "#F5F5F5"
+            "hoverColor": "#ffd7d7"
           },
           "preset": "ggd"
         }
