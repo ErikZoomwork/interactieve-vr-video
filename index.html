@@ -90,7 +90,7 @@
                 <!-- Gaze cursor: kijk naar een button om te selecteren -->
                 <a-entity
                     id="gaze-cursor"
-                    cursor="fuse: true; fuseTimeout: 2000"
+                    cursor="fuse: true; fuseTimeout: 2000; rayOrigin: mouse"
                     raycaster="objects: .clickable; far: 20"
                     position="0 0 -1"
                     geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"

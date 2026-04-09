@@ -76,13 +76,13 @@ function _applySettings() {
     if (gazeCursor) {
         if (gazeEnabled) {
             const timeout = s.gazeTimeout || 2000;
-            gazeCursor.setAttribute("cursor", `fuse: true; fuseTimeout: ${timeout}`);
+            gazeCursor.setAttribute("cursor", `fuse: true; fuseTimeout: ${timeout}; rayOrigin: mouse`);
             gazeCursor.setAttribute("visible", s.showCursorAlways !== false);
             // Update fusing-animatie duur zodat die overeenkomt met gazeTimeout
             gazeCursor.setAttribute("animation__fusing", `property: scale; startEvents: fusing; easing: easeInCubic; dur: ${timeout}; from: 1 1 1; to: 0.1 0.1 0.1`);
         } else {
-            gazeCursor.setAttribute("cursor", "fuse: false");
-            gazeCursor.setAttribute("raycaster", "objects: .nothing");
+            gazeCursor.setAttribute("cursor", "fuse: false; rayOrigin: mouse");
+            gazeCursor.setAttribute("raycaster", "objects: .clickable; far: 20");
             gazeCursor.setAttribute("visible", false);
         }
     }
