@@ -9,9 +9,11 @@
   },
   "videos": {
     "video-1": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1181455204/rendition/4320p/file.mp4%20%284320p%29.mp4?loc=external&log_user=0&signature=6771966805a1afaa14edc602741aac2ef48749b78bbf9b192a7ba3622de4d1e7",
+      "src": "",
       "loop": true,
-      "buttons": []
+      "buttons": [],
+      "sourceType": "url",
+      "projection": "180"
     }
   },
   "defaultButtonStyle": {
