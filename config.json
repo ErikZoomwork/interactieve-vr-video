@@ -44,7 +44,7 @@
         {
           "id": "btn-1775740879439",
           "text": "Keuze 1",
-          "goTo": "Scene_03",
+          "goTo": "",
           "position": {
             "x": -1,
             "y": 0,
@@ -74,7 +74,7 @@
         {
           "id": "btn-1775740878062",
           "text": "Keuze 2",
-          "goTo": "Scene_03",
+          "goTo": "",
           "position": {
             "x": 1,
             "y": 0,
