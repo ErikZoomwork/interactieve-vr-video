@@ -36,10 +36,7 @@
             "opacity": 1,
             "hoverColor": "#F5F5F5"
           },
-          "preset": "ggd",
-          "timing": {
-            "showAt": 69
-          }
+          "preset": "ggd"
         },
         {
           "id": "btn-1775740879439",
@@ -125,10 +122,7 @@
             "opacity": 1,
             "hoverColor": "#ffd7d7"
           },
-          "preset": "ggd",
-          "timing": {
-            "showAt": 69
-          }
+          "preset": "ggd"
         }
       ],
       "sourceType": "url",
