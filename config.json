@@ -155,7 +155,7 @@
             "width": 1,
             "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 4,
+            "fontSize": 8,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -184,7 +184,7 @@
             "width": 1,
             "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 4,
+            "fontSize": 8,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -220,7 +220,7 @@
             "width": 1,
             "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 4,
+            "fontSize": 8,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -249,7 +249,7 @@
             "width": 1,
             "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 4,
+            "fontSize": 8,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -285,7 +285,7 @@
             "width": 1,
             "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 4,
+            "fontSize": 8,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
@@ -315,7 +315,7 @@
             "width": 1,
             "height": 0.5,
             "borderRadius": 0.08,
-            "fontSize": 4,
+            "fontSize": 8,
             "opacity": 0.95,
             "hoverColor": "#1565C0"
           },
