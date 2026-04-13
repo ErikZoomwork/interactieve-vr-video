@@ -331,7 +331,7 @@
       "sourceType": "url"
     },
     "video-5": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1182634515/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=bb31a3d9f664079d22088032e42df735db571a61bc8ec9373eaa41fa291e7568",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1182634355/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=e9bfd19dc9090db2397322282a3df399678cf0216d1323e07fb6f3cc804288f3",
       "loop": false,
       "buttons": [],
       "sourceType": "url"
