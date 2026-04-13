@@ -265,7 +265,7 @@
         {
           "id": "btn-1775561940938",
           "text": "Misschien moet ik \nleren internetbankieren.",
-          "goTo": "Scene_01",
+          "goTo": "Scene_05",
           "position": {
             "x": -1,
             "y": 0,
@@ -294,7 +294,7 @@
         {
           "id": "btn-1775561943858",
           "text": "zou daar dat nieuwe\nhorloge vandaan komen.",
-          "goTo": "Scene_01",
+          "goTo": "video-5",
           "position": {
             "x": 1,
             "y": 0,
@@ -322,6 +322,12 @@
           "preset": "ggd"
         }
       ],
+      "sourceType": "url"
+    },
+    "video-5": {
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1182634515/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=bb31a3d9f664079d22088032e42df735db571a61bc8ec9373eaa41fa291e7568",
+      "loop": true,
+      "buttons": [],
       "sourceType": "url"
     }
   },
