@@ -9,7 +9,7 @@
   },
   "videos": {
     "Scene_01": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=b41aa0c5f69d02a7910384e79950d2d1e95f23584730cb0c8f64d54944bab7ef",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=69f88521f5ef235b5c5e836f5d1233e3666deaf67ea1d5395a61cccbf6bda5a4",
       "loop": false,
       "buttons": [
         {
