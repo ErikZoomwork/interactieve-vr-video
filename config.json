@@ -143,8 +143,8 @@
           "text": "Ben ik toch vergeten \nhet geld neer te leggen?",
           "goTo": "Scene_04",
           "position": {
-            "x": -2.9,
-            "y": -56994856571436584,
+            "x": 1,
+            "y": 0,
             "z": -2
           },
           "rotation": {
@@ -265,7 +265,7 @@
       "sourceType": "url"
     },
     "Scene_05": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787938/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=264cacd118ad83427e1d929341cac6540693822f19f14289299ebcf6133fe327",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787938/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=7a6f8aba2f0b83a07fe893273ce73c5918cdece643ed881e24814809cf032ae9",
       "loop": false,
       "buttons": [
         {
