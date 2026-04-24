@@ -135,7 +135,7 @@
       "projection": "360"
     },
     "Scene_03": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/1080p/file.mp4?loc=external&log_user=0&signature=64d10c6cb4372fd133c61dc22d1abd6f0b1f11ca70a8df9215c2d3991f33b7b8",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=357af4823f4786c04418417b437f875260f207ec53919058b33279350c2d8dcb",
       "loop": false,
       "buttons": [
         {
