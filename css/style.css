@@ -72,3 +72,11 @@ body {
 #btn-start:active {
     transform: scale(0.98);
 }
+
+#btn-start:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+    background: linear-gradient(90deg, #607D8B, #90A4AE);
+    box-shadow: none;
+}

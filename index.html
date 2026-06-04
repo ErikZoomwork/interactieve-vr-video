@@ -52,6 +52,9 @@
         </div>
     </div>
 
+    <!-- Vroeg preloaden van video's (nog vóór A-Frame scene, vermindert stotteren) -->
+    <div id="preload-container" style="display:none" aria-hidden="true"></div>
+
     <!-- ==================== A-FRAME VR SCENE ==================== -->
     <a-scene
         id="vr-scene"
@@ -119,13 +122,13 @@
         <!-- ===== Hand tracking (voor Meta Quest hand tracking) ===== -->
         <a-entity
             id="left-hand-tracking"
-            hand-tracking-controls="hand: left; modelStyle: dots;"
+            hand-tracking-controls="hand: left; modelStyle: controller;"
             raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5"
             pinch-to-click
         ></a-entity>
         <a-entity
             id="right-hand-tracking"
-            hand-tracking-controls="hand: right; modelStyle: dots;"
+            hand-tracking-controls="hand: right; modelStyle: controller;"
             raycaster="objects: .clickable; far: 20; lineColor: #4FC3F7; lineOpacity: 0.5"
             pinch-to-click
         ></a-entity>

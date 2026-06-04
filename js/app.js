@@ -130,3 +130,57 @@ document.addEventListener("keydown", (e) => {
 console.log("=== Interactieve VR Video ===");
 console.log("Beschikbare video's:", Object.keys(VR_CONFIG.videos).join(", "));
 console.log("Startvideo:", VR_CONFIG.settings.startVideo);
+
+// ===== Vroeg preloaden: start zodra de pagina laadt =====
+window.addEventListener('DOMContentLoaded', _initEarlyPreload);
+
+async function _initEarlyPreload() {
+    const btnStart = document.getElementById('btn-start');
+    if (btnStart) {
+        btnStart.disabled = true;
+        btnStart.textContent = '⏳ Video\'s laden...';
+    }
+
+    await _loadSharedConfig();
+
+    const videos = VR_CONFIG.videos;
+    if (!Object.keys(videos).length) {
+        if (btnStart) {
+            btnStart.disabled = false;
+            btnStart.textContent = '▶ Start VR Ervaring';
+        }
+        return;
+    }
+
+    const container = document.getElementById('preload-container');
+    const startVideoId = VR_CONFIG.settings.startVideo || Object.keys(videos)[0];
+
+    for (const [id, videoData] of Object.entries(videos)) {
+        const videoEl = document.createElement('video');
+        videoEl.id = `preload-video-${id}`;
+        videoEl.src = videoData.src;
+        videoEl.crossOrigin = 'anonymous';
+        // Startvideo voluit preloaden, overige alleen metadata
+        videoEl.preload = (id === startVideoId) ? 'auto' : 'metadata';
+        videoEl.playsInline = true;
+        videoEl.muted = true;
+        videoEl.setAttribute('webkit-playsinline', '');
+        if (container) container.appendChild(videoEl);
+    }
+
+    if (!btnStart) return;
+
+    const startVideoEl = document.getElementById(`preload-video-${startVideoId}`);
+    const enableStart = () => {
+        btnStart.disabled = false;
+        btnStart.textContent = '▶ Start VR Ervaring';
+    };
+
+    if (!startVideoEl || startVideoEl.readyState >= 3) {
+        enableStart();
+    } else {
+        startVideoEl.addEventListener('canplay', enableStart, { once: true });
+        // Na max 8 seconden sowieso vrijgeven
+        setTimeout(enableStart, 8000);
+    }
+}

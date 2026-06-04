@@ -19,24 +19,32 @@ class VideoManager {
         this._preloadAllVideos();
     }
 
-    /** Maak <video> elementen aan voor alle video's in de config */
+    /** Maak <video> elementen aan voor alle video's in de config (hergebruik vroeg gepreloade elementen) */
     _preloadAllVideos() {
         const videos = VR_CONFIG.videos;
         for (const [id, videoData] of Object.entries(videos)) {
-            const videoEl = document.createElement("video");
-            videoEl.id = `video-${id}`;
-            videoEl.src = videoData.src;
-            videoEl.crossOrigin = "anonymous";
-            videoEl.preload = videoData.sourceType === "url" ? "metadata" : "auto";
-            videoEl.playsInline = true;
-            videoEl.setAttribute("webkit-playsinline", "");
+            // Hergebruik al-gebufferd element van vroege preload indien beschikbaar
+            let videoEl = document.getElementById(`preload-video-${id}`);
+            if (videoEl) {
+                videoEl.id = `video-${id}`;
+                videoEl.muted = false;
+                this.assetContainer.appendChild(videoEl);
+            } else {
+                videoEl = document.createElement("video");
+                videoEl.id = `video-${id}`;
+                videoEl.src = videoData.src;
+                videoEl.crossOrigin = "anonymous";
+                videoEl.preload = videoData.sourceType === "url" ? "metadata" : "auto";
+                videoEl.playsInline = true;
+                videoEl.setAttribute("webkit-playsinline", "");
+                this.assetContainer.appendChild(videoEl);
+            }
 
             const shouldLoop = videoData.loop !== undefined
                 ? videoData.loop
                 : VR_CONFIG.settings.loopVideos;
             videoEl.loop = shouldLoop;
 
-            this.assetContainer.appendChild(videoEl);
             this.videoElements[id] = videoEl;
         }
     }
