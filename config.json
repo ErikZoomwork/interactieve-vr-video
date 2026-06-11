@@ -9,7 +9,7 @@
   },
   "videos": {
     "Scene_01": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=69f88521f5ef235b5c5e836f5d1233e3666deaf67ea1d5395a61cccbf6bda5a4",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787810/rendition/2160p/file.mp4%20%282160p%29.mp4?loc=external&log_user=0&signature=f2ea01635cb1d7d7cdaf21f0fc3e23c104fbd021718d0959a75a3cfff3d1b32c",
       "loop": false,
       "buttons": [
         {
@@ -135,7 +135,7 @@
       "projection": "360"
     },
     "Scene_03": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=357af4823f4786c04418417b437f875260f207ec53919058b33279350c2d8dcb",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787851/rendition/2160p/file.mp4%20%282160p%29.mp4?loc=external&log_user=0&signature=5bb66973929abb0a03a67614441fe4f191cb44eccdfcb8b58a5016a09a358a04",
       "loop": false,
       "buttons": [
         {
@@ -200,7 +200,7 @@
       "sourceType": "url"
     },
     "Scene_04": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787897/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=3ddd69e086b3100d0ac7b21c697c4b44bcc65f460efeb96ac2086a7f3aeee81c",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787897/rendition/2160p/file.mp4%20%282160p%29.mp4?loc=external&log_user=0&signature=3c4da766f69b3b53234520e30c30686c85c39e27c801bde74c40887d24e7febc",
       "loop": false,
       "buttons": [
         {
@@ -265,7 +265,7 @@
       "sourceType": "url"
     },
     "Scene_05": {
-      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787938/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=7a6f8aba2f0b83a07fe893273ce73c5918cdece643ed881e24814809cf032ae9",
+      "src": "https://player.vimeo.com/progressive_redirect/playback/1180787938/rendition/1440p/file.mp4%20%281440p%29.mp4?loc=external&log_user=0&signature=c0785eaa6e771a1b67bf96112c4fd9da17b37d501d78c4309a33f962df99cf2c",
       "loop": false,
       "buttons": [
         {
